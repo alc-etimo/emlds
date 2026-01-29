@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study 1: From Speech Analytics to Corporate Taxonomy – EMLDS Portfolio</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-light: #e8f0f8;
+            --accent: #2c5282;
+            --accent-light: #4a90e2;
+            --danger: #c53030;
+            --warning: #d69e2e;
+            --success: #2f855a;
+            --border: #cbd5e0;
+            --border-light: #e2e8f0;
+            --card: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            max-width: 250mm;
+            margin: 0 auto;
+            padding: 15mm;
+            font-size: 10.5pt;
+        }
+        
+        .case-header {
+            text-align: center;
+            border-bottom: 4px solid #003366;
+            padding-bottom: 20pt;
+            margin-bottom: 25pt;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20pt;
+            border-radius: 8px;
+        }
+        
+        .case-number {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 1.5pt;
+        }
+        
+        .case-header h1 {
+            font-size: 20pt;
+            color: #003366;
+            margin-bottom: 2pt;
+            text-transform: none;
+            letter-spacing: normal;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .case-subtitle {
+            font-size: 14pt;
+            color: #003366;
+            font-weight: 600;
+            margin-bottom: 15pt;
+            font-style: italic;
+        }
+        
+        .case-tags {
+            margin-top: 20pt;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4pt;
+        }
+        
+        .case-tag {
+            display: inline-block;
+            background: #003366;
+            color: white;
+            padding: 4pt 8pt;
+            border-radius: 5px;
+            font-size: 8.5pt;
+            font-weight: bold;
+            margin-right: 0;
+            margin-bottom: 8pt;
+        }
+        
+        .research-statement {
+            background: #f9f9f9;
+            padding: 15pt;
+            border-left: 4px solid #003366;
+            font-style: italic;
+            margin-bottom: 20pt;
+            text-align: justify;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        section {
+            margin-bottom: 30pt;
+            page-break-inside: avoid;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            border-bottom: 3px solid #003366;
+            padding-bottom: 5pt;
+            margin-bottom: 15pt;
+            text-transform: uppercase;
+            letter-spacing: 0.8pt;
+        }
+        
+        h3 {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #003366;
+            margin-top: 18pt;
+            margin-bottom: 10pt;
+            border-left: 5px solid #003366;
+            padding-left: 10pt;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .bias-card {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .bias-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .bias-card h4 {
+            color: #003366;
+            font-size: 10pt;
+            margin-bottom: 8pt;
+            font-weight: bold;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20pt;
+            margin: 20pt 0;
+        }
+        
+        .problem-box, .solution-box {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;	    
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .problem-box h3, .solution-box h3 {
+            text-align: center;
+            margin-top: 3pt;
+            border: none;
+            padding-left: 0;
+            color: #003366;
+            margin-bottom: 12pt;
+            padding-bottom: 8pt;
+            border-bottom: 1px solid #003366;
+        }
+
+        .click-hint {
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 9pt; 
+            color: var(--accent); 
+            margin-bottom: 8pt; 
+            font-style: italic;
+        }
+        
+        .hand-icon { 
+            width: 18px; 
+            height: 18px;
+            transform: rotate(-180deg);
+            fill: var(--accent); 
+            margin: 0 2px;
+        }
+
+        .hand-icon.left { 
+            transform: rotate(90deg); 
+        }
+
+        .hand-icon.right { 
+            transform: rotate(-90deg); 
+        }
+
+        .click-hint .arrows-container {
+            display: flex;
+            align-items: center;
+            margin: 0 6px;
+        }
+
+        .image-container {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8pt;
+            margin: 10pt 0;
+            background: #fafafa;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+
+        .image-caption {
+            font-size: 9pt;
+            color: #666;
+            margin-top: 4pt;
+            font-style: italic;
+        }
+
+        .analysis-box {
+            background: #fff; 
+            border: 1px solid var(--border);
+            padding: 12pt; 
+            border-radius: 6px; 
+            margin-top: 10pt;
+        }
+        
+        .analysis-box h4 { 
+            font-size: 10pt; 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            margin-bottom: 8pt;
+            padding-bottom: 4pt;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        ul.analysis-list { 
+            margin-left: 0;
+            margin-top: 0;
+        }
+        
+        ul.analysis-list li { 
+            margin-bottom: 12pt;
+            font-size: 10pt; 
+            list-style: none;
+            padding-left: 15pt;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        ul.analysis-list li::before { 
+            content: '→'; 
+            position: absolute; 
+            left: 0; 
+            color: var(--primary); 
+        }
+
+        .error-tag {
+            display: inline-block;
+            background: #fff5f5;
+            color: var(--danger);
+            padding: 2pt 6pt;
+            border-radius: 4px;
+            font-size: 7pt;
+            font-weight: 600;
+            margin-top: 5pt;
+            margin-right: 4pt;
+            border: 1px solid #feb2b2;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: help;
+        }
+
+        .error-tag:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .error-tag::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 75%;
+            transform: translateX(-50%);
+            background: rgba(197, 48, 48, 0.95);
+            color: white;
+            padding: 6pt 10pt;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            margin-bottom: 6pt;
+        }
+
+        .error-tag:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .error-tag-after {
+            display: inline-block;
+            background: #F2FFEE;
+            color: var(--accent);
+            padding: 2pt 4pt;
+            border-radius: 4px;
+            border: 1px solid #9ae6b4;
+            font-size: 7.5pt;
+            font-weight: 600;
+            margin-top: 5pt;
+            margin-right: 4pt;
+            transition: all 0.3s ease;
+            position: relative;            
+        }
+
+        .error-tag-after:hover {
+            background: #2f855a;
+            color: white;
+        }
+
+        .error-tag-after:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tech-term {
+            background: var(--primary-light);
+            color: var(--accent);
+            padding: 1pt 4pt;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 9.5pt;
+            cursor: help;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tech-term:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tech-term::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 70%;
+            transform: translateX(-40%);
+            background: rgba(44, 82, 130, 0.95);
+            color: white;
+            padding: 6pt 10pt;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            margin-bottom: 6pt;
+        }
+
+        .tech-term:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }        
+
+        .interactive-rewrite {
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20pt 0;
+            background: var(--card);
+        }
+        
+        .tab-nav { 
+            display: flex; 
+            background: var(--primary-light); 
+            border-bottom: 1px solid var(--border); 
+        }
+        
+        .tab-btn { 
+            flex: 1; 
+            padding: 10pt; 
+            border: none; 
+            background: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: var(--primary); 
+            transition: 0.3s; 
+            font-size: 10pt;
+        }
+        
+        .tab-btn.active { 
+            background: var(--primary); 
+            color: white; 
+        }
+        
+        .tab-content { 
+            padding: 15pt; 
+            display: none; 
+        }
+        
+        .tab-content.active { 
+            display: block; 
+        }
+        
+        .methodology-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20pt 0;
+            font-size: 9pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .methodology-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10pt;
+            border: 1px solid var(--primary-light);
+            vertical-align: middle;
+        }
+        
+        .methodology-table td {
+            padding: 8pt;
+            border: 1px solid var(--border-light);
+            vertical-align: top;
+            background: white;
+        }
+        
+        .methodology-table tr:nth-child(even) td {
+            background: #f9f9f9;
+        }
+        
+        .methodology-table .example-cell {
+            text-align: center;
+            padding: 5pt;
+        }
+        
+        .methodology-table .example-img {
+            max-width: 120px;
+            max-height: 60px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .severity-badge {
+            display: inline-block;
+            padding: 3pt 8pt;
+            border-radius: 12px;
+            font-size: 8.5pt;
+            font-weight: bold;
+            margin: 2pt;
+        }
+        
+        .critical-severity { background: #fed7d7; color: #7b341e; border: 1px solid #fc8181; }
+        .major-severity { background: #feebc8; color: #744210; border: 1px solid #f6ad55; }
+        .minor-severity { background: #c6f6d5; color: #22543d; border: 1px solid #68d391; }
+        .not-present-severity { background: #e2e8f0; color: #2d3748; border: 1px solid #a0aec0; }
+        
+        .pipeline-wrapper {
+            position: relative;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30pt 50pt;
+            margin: 20pt 0;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pipeline-container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            transition: transform 0.6s ease;
+        }
+        
+        .pipeline-box {
+            width: 280px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20pt;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: absolute;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.4s ease;
+        }
+        
+        .pipeline-box.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11pt;
+            font-weight: bold;
+            z-index: 3;
+        }
+        
+        .arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 51, 102, 0.2);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+        }
+        
+        .arrow-btn:hover {
+            background: rgba(0, 51, 102, 0.8);
+            opacity: 1;
+        }
+        
+        .arrow-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+        
+        .arrow-btn:disabled:hover {
+            background: rgba(0, 51, 102, 0.2);
+        }
+        
+        .arrow-btn.prev {
+            left: 10px;
+        }
+        
+        .arrow-btn.next {
+            right: 10px;
+        }
+
+        .csat-scale {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8pt;
+            margin: 15pt 0;
+        }
+        
+        .csat-level {
+            padding: 10pt;
+            border-radius: 6px;
+            text-align: center;
+            color: white;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+        
+        .csat-5 { background: #2f855a; }
+        .csat-4 { background: #48bb78; }
+        .csat-3 { background: #ecc94b; color: #333; }
+        .csat-2 { background: #ed8936; }
+        .csat-1 { background: #c53030; }
+
+        .severity-badges {
+            display: flex;
+            gap: 8pt;
+            margin: 10pt 0;
+            flex-wrap: wrap;
+        }
+        
+        .severity-badge {
+            padding: 6pt 12pt;
+            border-radius: 20px;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+        
+        .critical-badge { background: #fff5f5; color: #c53030; border: 1px solid #fc8181; }
+        .major-badge { background: #fefcbf; color: #975a16; border: 1px solid #f6e05e; }
+        .minor-badge { background: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; }
+
+        .results-vertical {
+            display: block;
+            margin: 20pt 0;
+        }
+
+        .results-vertical > div {
+            margin-bottom: 20pt;
+        }
+
+        .results-vertical > div:last-child {
+            margin-bottom: 0;
+        }
+
+        .qualitative-box, .quantitative-box, .impact-box {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            width: 100%;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10pt;
+            margin-top: 10pt;
+        }
+        
+        .metric-card {
+            background: #f0f7ff;
+            border: 1px solid #003366;
+            border-radius: 6px;
+            padding: 10pt;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 4pt;
+        }
+        
+        .metric-label {
+            font-size: 9pt;
+            color: #666;
+        }
+        
+        .quote-box {
+            background: linear-gradient(135deg, #003366, hsl(215, 50%, 35%));
+            color: white;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(31, 79, 176, 0.2);
+            margin: 1.5rem 0;
+        }
+        
+        .quote-box p {
+            font-size: 1.05rem;
+            font-weight: 500;
+            font-style: italic;
+            opacity: 0.95;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+        
+        .quote-box .source {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-style: normal;
+        }
+        
+        ul {
+            margin-left: 20pt;
+            margin-top: 8pt;
+        }
+        
+        li {
+            margin-bottom: 8pt;
+            text-align: justify;
+        }
+        
+        strong {
+            color: #003366;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15pt 0;
+            font-size: 9pt;
+        }
+        
+        .data-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: bold;
+            text-align: left;
+            padding: 8pt;
+            border: 1px solid var(--border);
+        }
+        
+        .data-table td {
+            padding: 6pt 8pt;
+            border: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        @media print {
+            body { padding: 5mm; }
+        }
+        
+        @media (max-width: 768px) {
+            .methodology-table {
+                font-size: 8pt;
+            }
+            
+            .methodology-table th,
+            .methodology-table td {
+                padding: 5pt 3pt;
+            }
+            
+            .metrics-grid, .csat-scale {
+                grid-template-columns: 1fr;
+            }
+            
+            .pipeline-wrapper {
+                padding: 20pt 40pt;
+            }
+            
+            .pipeline-box {
+                width: 240px;
+            }
+            
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .severity-badges {
+                flex-direction: column;
+            }
+        }
+
+        .example-block {
+            margin: 10pt 0;
+            padding: 8pt;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .example-block strong {
+            display: block;
+            margin-bottom: 4pt;
+            color: var(--accent);
+        }
+        
+        .cc-quote {		
+            background: #e3f2fd;
+            border-left: 4px solid #2c5282;
+            padding: 12pt;
+            margin: 12pt 0;
+            font-style: italic;
+            border-radius: 0 4px 4px 0;
+		
+        }
+        
+        /* NOVOS ESTILOS PARA O CASO 1 */
+        .transformation-flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15pt;
+            margin: 20pt 0;
+        }
+        
+        .transformation-phase {
+            background: white;
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 5px solid;
+        }
+        
+        .transformation-phase:hover {
+            transform: translateY(-5px);
+        }
+        
+        .phase-1 { border-color: #c53030; }
+        .phase-2 { border-color: #d69e2e; }
+        .phase-3 { border-color: #2f855a; }
+        
+        .transformation-phase h4 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 10pt;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+        
+        .phase-icon {
+            font-size: 24pt;
+            text-align: center;
+            margin-bottom: 10pt;
+        }
+        
+        .term-example {
+            background: #f8f9fa;
+            padding: 8pt;
+            margin: 8pt 0;
+            border-radius: 4px;
+            border-left: 3px solid;
+            font-size: 9.5pt;
+        }
+        
+        .term-before { border-left-color: #c53030; }
+        .term-during { border-left-color: #d69e2e; }
+        .term-after { border-left-color: #2f855a; }
+        
+        .vocabulary-entry {
+            background: #e8f0f8;
+            border: 1px solid #2c5282;
+            border-radius: 6px;
+            padding: 12pt;
+            margin: 15pt 0;
+            font-size: 9.5pt;
+        }
+        
+        .entry-field {
+            margin-bottom: 5pt;
+        }
+        
+        .entry-label {
+            font-weight: bold;
+            color: #2c5282;
+            display: inline-block;
+            width: 120px;
+        }
+/* Abas Antes/Durante/Depois */
+.phase-tabs {
+    display: flex;
+    margin-bottom: 0;
+    background: var(--primary-light);
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.phase-tab {
+    flex: 1;
+    padding: 12pt;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 10pt;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.phase-tab.active {
+    color: white;
+}
+
+.phase-tab.phase-before.active { background: #003366; }
+.phase-tab.phase-during.active { background: #003366; }
+.phase-tab.phase-after.active { background: #003366; }
+
+.phase-content {
+    display: none;
+    padding: 20pt;
+    border: 2px solid;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 20pt;
+}
+
+.phase-content.active {
+    display: block;
+}
+
+.phase-content.before-phase { 
+    border-color: #c53030; 
+    background: #fff5f5;
+}
+
+.phase-content.during-phase { 
+    border-color: #d69e2e; 
+    background: #fefcbf;
+}
+
+.phase-content.after-phase { 
+    border-color: #2f855a; 
+    background: #f0fff4;
+}
+
+/* Cards de outras aplicações */
+.other-applications {
+    margin-top: 25pt;
+    padding-top: 15pt;
+    border-top: 2px dashed var(--border);
+}
+
+.toggle-applications {
+    background: var(--primary-light);
+    border: none;
+    padding: 8pt 15pt;
+    border-radius: 20px;
+    color: var(--primary);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 9.5pt;
+    transition: all 0.3s ease;
+}
+
+.toggle-applications:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15pt;
+    margin-top: 15pt;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.applications-grid.expanded {
+    max-height: 500px;
+}
+
+.application-card {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 15pt;
+    transition: all 0.3s ease;
+}
+
+.application-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.application-card h4 {
+    color: var(--primary);
+    font-size: 10.5pt;
+    margin-bottom: 10pt;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 8pt;
+}
+
+.app-problem {
+    background: #fff5f5;
+    padding: 8pt;
+    border-radius: 4px;
+    margin-bottom: 8pt;
+    border-left: 3px solid #c53030;
+}
+
+.app-solution {
+    background: #f0fff4;
+    padding: 8pt;
+    border-radius: 4px;
+    margin-bottom: 8pt;
+    border-left: 3px solid #2f855a;
+}
+
+.app-impact {
+    background: #fefcbf;
+    padding: 8pt;
+    border-radius: 4px;
+    border-left: 3px solid #d69e2e;
+}
+
+/* Indicador de fase ativa */
+.phase-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6pt;
+}
+
+.indicator-before { background: #c53030; }
+.indicator-during { background: #d69e2e; }
+.indicator-after { background: #2f855a; }
+
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO DO CASO 1 -->
+    <div class="case-header">
+        <div class="case-number">CASE STUDY 1 – EMLDS PORTFOLIO</div>
+        <h1>From Speech Analytics to Corporate Taxonomy:</h1>
+        <div class="case-subtitle">A Linguistic Data Governance Pipeline for AI-Mediated Customer Support</div>
+        <div class="case-tags">
+            <span class="case-tag">Linguistic Data Science</span>
+            <span class="case-tag">Speech Analytics</span>
+            <span class="case-tag">Ontological Modeling</span>
+            <span class="case-tag">Corporate Taxonomy</span>
+            <span class="case-tag">AI Ethics</span>
+            <span class="case-tag">Knowledge Representation</span>
+            <span class="case-tag">Applied Linguistics</span>
+        </div>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <section id="introduction">
+        <h2>1. INTRODUCTION: TRANSFORMING LANGUAGE INTO INFRASTRUCTURE</h2>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #f0f7ff 0%, #d6e4ff 100%); border-left: 4px solid #003366;">
+            <strong>Core Proposition:</strong> This case study documents the design and implementation of a linguistic data governance pipeline in a real corporate environment. The project emerged from the need to mediate between spoken customer language, AI-assisted systems, and institutional knowledge bases in large-scale customer support operations.
+        </div>
+        
+        <p style="text-align: justify;">
+            At its core, this work addresses a fundamental problem in <strong>Linguistic Data Science</strong>: how to transform highly variable, context-dependent human language into structured, explainable, and ethically governed data without erasing linguistic diversity. By integrating speech analytics, ontological modeling, and corporate taxonomy design, this project positions language not merely as input for AI systems, but as <strong>infrastructural data requiring explicit governance</strong>.
+        </p>
+        
+        <div class="cards-grid">
+            <div class="bias-card">
+                <h4>Real Corporate Environment</h4>
+                <p>Production-level implementation in multinational telecommunications customer support</p>
+            </div>
+            
+            <div class="bias-card">
+                <h4>Linguistic Mediation</h4>
+                <p>Bridging spoken customer language, AI systems, and institutional knowledge bases</p>
+            </div>
+            
+            <div class="bias-card">
+                <h4>Infrastructure Perspective</h4>
+                <p>Treating language as governable infrastructure rather than mere surface communication</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEXT AND PROBLEM DEFINITION -->
+    <section id="context-problem">
+        <h2>2. CONTEXT AND PROBLEM DEFINITION</h2>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>The Operational Challenge</h3>
+                <ul>
+                    <li><strong>AI-Mediated Support Ecosystem:</strong> Customer support operations where AI tools assisted 30,000+ agents during live calls</li>
+                    <li><strong>Dual Data Streams:</strong> Speech analytics captured customer speech while tracking agent search terms in CRM systems</li>
+                    <li><strong>Persistent Linguistic Bottleneck:</strong> Despite advanced AI, language variability caused systematic failures in information retrieval</li>
+                    <li><strong>Transparency Deficit:</strong> Automated systems lacked explainability regarding linguistic interpretation</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>The Linguistic Data Problem</h3>
+                <ul>
+                    <li><strong>Variability as Structural Issue:</strong> Regional expressions, synonyms, and informal patterns disrupted AI performance</li>
+                    <li><strong>Cognitive Load:</strong> Agents struggled with linguistic mediation between customers and rigid systems</li>
+                    <li><strong>Search Failures:</strong> Natural language diversity resulted in delayed resolutions and poor user experience</li>
+                    <li><strong>Governance Gap:</strong> Language was processed but not governed in AI pipelines</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="research-statement">
+            <strong>Key Insight:</strong> Language variability, rather than technical performance, became the primary obstacle to effective AI-mediated decision-making in customer support. This revealed a fundamental gap in how linguistic data was structured and governed within automated systems.
+        </div>
+    </section>
+
+    <!-- RESEARCH QUESTIONS AND HYPOTHESES -->
+    <section id="research-questions">
+        <h2>3. RESEARCH QUESTIONS AND HYPOTHESES</h2>
+        
+        <div class="analysis-box">
+            <h4>Guiding Research Questions</h4>
+            <ul class="analysis-list">
+                <li><strong>How can spoken language data be transformed into structured knowledge without suppressing linguistic variation?</strong> → This question addresses the tension between standardization needed for computational systems and preservation of natural language diversity.</li>
+                <li><strong>Can terminology governance improve information retrieval in AI-assisted environments?</strong> → Investigates whether explicit linguistic governance mechanisms can enhance rather than hinder AI performance.</li>
+                <li><strong>What role do ontologies play in mediating between human language and automated systems?</strong> → Examines ontological modeling as a bridge between unstructured speech and structured computational processing.</li>
+            </ul>
+        </div>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-left: 4px solid #2c5282;">
+            <strong>Central Hypothesis:</strong> Linguistic governance — implemented through controlled vocabularies and taxonomies — could reduce noise in AI pipelines while increasing transparency, ethical accountability, and operational efficiency. This hypothesis positioned governance not as constraint but as enabling infrastructure.
+        </div>
+    </section>
+
+    <!-- DATA SOURCES AND VALIDATION -->
+    <section id="data-validation">
+        <h2>4. DATA SOURCES AND VALIDATION</h2>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>Data Origin & Characteristics</h3>
+                <ul>
+                    <li><strong>Real Corporate Data:</strong> Derived from speech analytics platform deployed in production environment</li>
+                    <li><strong>Scale:</strong> Thousands of customer calls processed daily, generating transcriptions and search correlations</li>
+                    <li><strong>Dual Perspective:</strong> Customer speech patterns + Agent search behavior = rich empirical basis</li>
+                    <li><strong>Empirical Foundation:</strong> Recurring linguistic patterns, ambiguities, and gaps identified from actual usage</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>Validation Layers</h3>
+                <ul>
+                    <li><strong>Ontological Validation:</strong> Conceptual structure reviewed by Information Architect with formal training in Library and Information Science</li>
+                    <li><strong>Methodological Grounding:</strong> Principles from biblioteconomy and knowledge organization ensured rigor</li>
+                    <li><strong>Term Validation:</strong> ~700 terms validated through frequency analysis, real-world usage, and manual linguistic review</li>
+                    <li><strong>Documentation Standards:</strong> Each term included conceptual explanations, usage examples, bibliographic references, and semantic relations</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="image-container">
+            <div style="background: #f5f5f5; padding: 20pt; border-radius: 4px;">
+                <strong>DATA VALIDATION FRAMEWORK:</strong><br><br>
+                <div style="font-family: monospace; font-size: 9pt; text-align: left; padding: 10pt; background: white; border: 1px solid #ccc;">
+                    <strong>Source:</strong> Production speech analytics → Transcription + Search correlation<br>
+                    <strong>Method:</strong> Corpus linguistics approach to real-world language data<br>
+                    <strong>Validation:</strong> Expert review + Usage frequency + Manual linguistic analysis<br>
+                    <strong>Documentation:</strong> Conceptual + Contextual + Bibliographic + Relational data per term
+                </div>
+            </div>
+            <div class="image-caption">Multi-layered validation framework ensuring empirical grounding and methodological rigor</div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGICAL PIPELINE -->
+    <section id="methodological-pipeline">
+        <h2>5. METHODOLOGICAL PIPELINE: FROM SPEECH TO STRUCTURE</h2>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #2c5282;">
+            <strong>Pipeline Architecture:</strong> The project was operationalized through a six-stage linguistic data pipeline that functioned as a mediating layer between raw language data and automated decision systems, ensuring semantic consistency without eliminating linguistic diversity.
+        </div>
+        
+        <div class="pipeline-wrapper">
+            <button class="arrow-btn prev" onclick="moveMethodSlide(-1)" id="methodPrevBtn" disabled>❮</button>
+            
+            <div class="pipeline-container" id="methodPipeline">
+                <!-- Box 1 -->
+                <div class="pipeline-box active" id="methodStep1">
+                    <div class="step-number">1</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">Speech Analytics</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Capture and transcription of spoken customer language in real-time
+                    </p>
+                </div>
+                
+                <!-- Box 2 -->
+                <div class="pipeline-box" id="methodStep2">
+                    <div class="step-number">2</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">Term Extraction</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Identification of recurring linguistic units and patterns
+                    </p>
+                </div>
+                
+                <!-- Box 3 -->
+                <div class="pipeline-box" id="methodStep3">
+                    <div class="step-number">3</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">Ontological Modeling</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Conceptual organization of terms and their semantic relations
+                    </p>
+                </div>
+                
+                <!-- Box 4 -->
+                <div class="pipeline-box" id="methodStep4">
+                    <div class="step-number">4</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">Controlled Vocabulary</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Governance of preferred terms, variants, and usage contexts
+                    </p>
+                </div>
+                
+                <!-- Box 5 -->
+                <div class="pipeline-box" id="methodStep5">
+                    <div class="step-number">5</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">Corporate Taxonomy</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Hierarchical organization by conceptual domains derived from usage
+                    </p>
+                </div>
+                
+                <!-- Box 6 -->
+                <div class="pipeline-box" id="methodStep6">
+                    <div class="step-number">6</div>
+                    <strong style="font-size: 11pt; color: var(--primary);">System Integration</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        Deployment within CRM and AI-assisted support tools
+                    </p>
+                </div>
+            </div>
+            
+            <button class="arrow-btn next" onclick="moveMethodSlide(1)" id="methodNextBtn">❯</button>
+        </div>
+        
+        <div class="research-statement">
+            <strong>Pipeline Function:</strong> This multi-stage approach transformed language from unstructured input into governed infrastructure. Each stage added structure while preserving the empirical grounding in actual language use, creating what I term a <strong>"linguistic mediation layer"</strong> between human communication and automated systems.
+        </div>
+    </section>
+
+    <!-- TAXONOMY CONSTRUCTION -->
+    <section id="taxonomy-construction">
+        <h2>6. TAXONOMY CONSTRUCTION AND VISUAL EVIDENCE</h2>
+        
+        <div class="click-hint">
+            <svg class="hand-icon" viewBox="0 0 24 24">
+                <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+            </svg>
+            Visual documentation of the transformation from speech data to semantic infrastructure
+        </div>
+    
+        <div class="phase-tabs">
+            <button class="phase-tab phase-before active" onclick="openPhase('before')">
+                EVIDENCE: <br> Empirical Language Patterns
+            </button>
+            <button class="phase-tab phase-during" onclick="openPhase('during')">
+                STRUCTURE: <br> Ontological Modeling
+            </button>
+            <button class="phase-tab phase-after" onclick="openPhase('after')">
+                INFRASTRUCTURE: <br> Governed Taxonomy
+            </button>
+        </div>
+
+        <!-- PHASE 1 -->
+        <div id="phase-before" class="phase-content active"
+             style="border-color: var(--primary); background: var(--primary-light);">
+            <h4>Empirical Foundation: Speech Data as Linguistic Evidence</h4>
+            <p style="font-size: 9.5pt; text-align:justify;">
+                Speech analytics revealed systematic patterns in how customers expressed needs and how agents mediated between natural language and system constraints. This empirical evidence formed the foundation for all subsequent modeling.
+            </p>
+            <div class="two-columns">
+                <div class="image-container">
+                    <img src="https://github.com/alc-etimo/profa_lenita/blob/main/caso-1-diagnostico.png?raw=true" style="width:100%;height:auto;">
+                    <div class="image-caption">
+                        Corpus evidence showing multiple linguistic realizations of identical communicative intent
+                    </div>
+                </div>
+                <blockquote class="cc-quote">
+                    <p style="margin-top:30px; text-align:justify;">The data revealed that variability follows predictable patterns rather than random distribution. This insight informed the design principle: preserve pattern while adding structure.</p>
+                </blockquote>
+            </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div id="phase-during" class="phase-content"
+             style="border-color: var(--accent); background: #f4f8fc;">
+            <h4>Conceptual Structure: Ontology as Mediation Framework</h4>
+            <p style="font-size: 9.5pt; text-align:justify;">
+                Ontological modeling created a conceptual framework that captured semantic relationships independent of surface forms. This served as the bridge between variable expression and consistent interpretation.
+            </p>
+            <div class="research-statement" style="margin-top: 15pt; background: #e8f0f8;">
+                <strong>Design Principle:</strong> The ontology was structured around conceptual domains derived from empirical language use rather than predefined technical categories. Parent-child relations reflected semantic dependency, specificity, and pragmatic relevance within actual customer support scenarios.
+            </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div id="phase-after" class="phase-content"
+             style="border-color: var(--accent-light); background: #eef5ff;">
+            <h4>Governed Infrastructure: Taxonomy as Operational Asset</h4>
+            <div class="two-columns">
+                <div class="image-container">
+                    <a href="https://github.com/alc-etimo/profa_lenita/blob/main/caso-1-vc.png?raw=true" target="_blank;">
+                        <img src="https://github.com/alc-etimo/profa_lenita/blob/main/caso-1-vc.png?raw=true" style="width:100%;height:auto;">
+                    </a>
+                    <div class="image-caption">
+                        Governed semantic infrastructure: controlled vocabulary with systematic relationship management
+                    </div>
+                </div>
+                <blockquote class="cc-quote">
+                    <p style="margin-top:30px; text-align:justify;">Visual representations document the transformation of language into operational infrastructure, enabling both human interpretability and machine actionability. The taxonomy makes linguistic assumptions visible and auditable.</p>
+                </blockquote>
+            </div>
+            <div class="vocabulary-entry">
+                <div class="entry-field">
+                    <span class="entry-label">Concept Domain:</span>
+                    Billing & Payments
+                </div>
+                <div class="entry-field">
+                    <span class="entry-label">Core Term:</span>
+                    Invoice
+                </div>
+                <div class="entry-field">
+                    <span class="entry-label">Linguistic Variants:</span>
+                    Bill, account statement, payment request, charges overview (validated by usage)
+                </div>
+                <div class="entry-field">
+                    <span class="entry-label">Governance Rule:</span>
+                    All variants map to same conceptual entity for search; "invoice" preferred for content
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FROM GLOSSARY TO INFRASTRUCTURE -->
+    <section id="glossary-infrastructure">
+        <h2>7. FROM GLOSSARY TO LINGUISTIC INFRASTRUCTURE</h2>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%); border-left: 4px solid #2f855a;">
+            <strong>Conceptual Evolution:</strong> The project originated as a practical glossary for content standardization but evolved into governed infrastructure as the scope of linguistic inconsistency became evident. This transition marked a paradigm shift: language ceased to be treated as editorial surface and became recognized as infrastructural data.
+        </div>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>Initial Phase: Glossary</h3>
+                <ul>
+                    <li><strong>Purpose:</strong> Standardize writing practices among content creators</li>
+                    <li><strong>Scope:</strong> ~700 terms with basic definitions</li>
+                    <li><strong>Perspective:</strong> Language as editorial concern</li>
+                    <li><strong>Governance:</strong> Style guide recommendations</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>Evolved State: Linguistic Infrastructure</h3>
+                <ul>
+                    <li><strong>Purpose:</strong> Govern AI-system interactions and information retrieval</li>
+                    <li><strong>Scope:</strong> 2,700+ terms with conceptual relations and validation</li>
+                    <li><strong>Perspective:</strong> Language as structural component of systems</li>
+                    <li><strong>Governance:</strong> Formal mechanisms with ethical accountability</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="research-statement">
+            <strong>Infrastructural Turn:</strong> Linguistic decisions transformed from stylistic preferences to governance mechanisms with direct impact on AI behavior, user experience, and ethical accountability. This shift reflects the core premise of <strong>Linguistic Data Science</strong>: language is data that requires explicit modeling and governance when operationalized in computational systems.
+        </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results">
+        <h2>8. RESULTS: QUALITATIVE, QUANTITATIVE, INSTITUTIONAL</h2>
+        
+        <div class="results-vertical">
+            <div class="qualitative-box">
+                <h3>Qualitative Outcomes</h3>
+                <ul>
+                    <li><strong>Reduced Linguistic Exclusion:</strong> Systems became more responsive to natural language variation, decreasing bias against non-standard expressions</li>
+                    <li><strong>Lower Cognitive Load:</strong> Customer support agents experienced reduced mental effort in mediating between customers and systems</li>
+                    <li><strong>Increased Transparency:</strong> AI systems gained explainability regarding how linguistic input was interpreted and operationalized</li>
+                    <li><strong>Ethical Interface:</strong> The taxonomy functions as an auditable layer making linguistic assumptions visible and contestable</li>
+                </ul>
+            </div>
+            
+            <div class="quantitative-box">
+                <h3>Quantitative Impact</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">700 → 2,700+</div>
+                        <div class="metric-label">Governed term expansion</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Significant ↓</div>
+                        <div class="metric-label">Failed CRM searches</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">Measurable ↓</div>
+                        <div class="metric-label">Average resolution time</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">30,000+</div>
+                        <div class="metric-label">Agents impacted</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="impact-box">
+                <h3>Institutional Transformation</h3>
+                <ul>
+                    <li><strong>Strategic Recognition:</strong> Language acknowledged as infrastructural asset requiring governance</li>
+                    <li><strong>Integrated Workflows:</strong> Linguistic governance embedded into AI development and operational processes</li>
+                    <li><strong>Cross-Functional Practice:</strong> Terminology management established as collaborative, multi-stakeholder practice</li>
+                    <li><strong>Scalable Model:</strong> Methodology developed as replicable framework for other domains</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ETHICAL AND SCIENTIFIC IMPLICATIONS -->
+    <section id="ethical-implications">
+        <h2>9. ETHICAL AND SCIENTIFIC IMPLICATIONS</h2>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>Ethical Dimensions</h3>
+                <ul>
+                    <li><strong>Bias Reduction:</strong> Explicit linguistic governance reduced implicit bias embedded in language processing systems</li>
+                    <li><strong>Transparency Enhancement:</strong> Semantic assumptions became visible, auditable, and contestable through governed structures</li>
+                    <li><strong>Inclusion Mechanism:</strong> Preservation of linguistic variation as valid data points decreased exclusion based on "correct" terminology</li>
+                    <li><strong>Accountability Framework:</strong> Governance mechanisms created clear lines of responsibility for linguistic decisions in AI systems</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>Scientific Contributions</h3>
+                <ul>
+                    <li><strong>Interdisciplinary Convergence:</strong> Demonstrated integration of applied linguistics, ontology engineering, and data science in real-world systems</li>
+                    <li><strong>Methodological Innovation:</strong> Developed replicable pipeline for transforming speech data into governed infrastructure</li>
+                    <li><strong>Infrastructure Perspective:</strong> Positioned language as structural component rather than surface phenomenon in computational systems</li>
+                    <li><strong>Governance Models:</strong> Contributed to understanding of how linguistic governance can be operationalized in AI environments</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="quote-box">
+            <p>"By introducing explicit linguistic governance into AI-mediated systems, this project demonstrates that ethical considerations can be operationalized as technical infrastructure. The taxonomy functions not just as organizational tool, but as ethical interface making linguistic assumptions visible, auditable, and contestable."</p>
+            <div class="source">Core Contribution: Governance as Technical-Ethical Practice</div>
+        </div>
+    </section>
+
+    <!-- EMLDS ALIGNMENT -->
+    <section id="emlds-alignment">
+        <h2>10. ALIGNMENT WITH ERASMUS MUNDUS IN LINGUISTIC DATA SCIENCE</h2>
+        
+        <div class="analysis-box">
+            <h4>Direct Program Alignment</h4>
+            <ul class="analysis-list">
+                <li><strong>Linguistic Data Modeling:</strong> This case exemplifies the transformation of unstructured speech into structured, governed data—a core competency of the EMLDS program</li>
+                <li><strong>Knowledge Representation:</strong> The ontological modeling and taxonomy development directly align with program focus on how linguistic knowledge is formally represented</li>
+                <li><strong>Applied Ethics in AI:</strong> The integration of ethical governance into technical infrastructure reflects the program's emphasis on responsible AI development</li>
+                <li><strong>Interdisciplinary Methodology:</strong> The pipeline integrates linguistics, information science, and data engineering—exemplifying the interdisciplinary approach championed by EMLDS</li>
+                <li><strong>Real-World Application:</strong> Production-level implementation demonstrates the practical impact of linguistic data science beyond theoretical exploration</li>
+            </ul>
+        </div>
+        
+        <div class="research-statement">
+            <strong>Research Trajectory:</strong> This case reflects a research orientation centered on transforming linguistic theory into operational systems that are scalable, explainable, and ethically grounded. It demonstrates readiness for advanced study in precisely the areas EMLDS emphasizes: linguistic data modeling, knowledge representation, AI ethics, and interdisciplinary methodology.
+        </div>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="conclusion">
+        <h2>11. CONCLUSION: LANGUAGE AS GOVERNED INFRASTRUCTURE</h2>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #003366, #2c5282); color: white; border-left: 4px solid #4a90e2;">
+            <strong>Core Contribution:</strong> This case study demonstrates that language, when governed rather than merely processed, becomes a central component of ethical and effective AI systems. By transforming speech into structured semantic infrastructure, linguistic data science moves beyond analysis and into institutional design.
+        </div>
+        
+        <p style="text-align: justify;">
+            The project documented here represents more than a corporate solution—it embodies a methodological approach to linguistic data science that balances technical efficiency with ethical responsibility. The pipeline developed shows how variable human language can be transformed into governed infrastructure that serves both computational needs and human values.
+        </p>
+        
+        <div class="case-tags" style="margin-top: 20pt;">
+            <span class="case-tag">Linguistic Data Governance</span>
+            <span class="case-tag">Speech-to-Structure Pipeline</span>
+            <span class="case-tag">Ontology Engineering</span>
+            <span class="case-tag">Corporate Taxonomy</span>
+            <span class="case-tag">AI Ethics</span>
+            <span class="case-tag">Knowledge Representation</span>
+            <span class="case-tag">Applied Linguistic Data Science</span>
+            <span class="case-tag">Real-World Implementation</span>
+        </div>
+    </section>
+
+    <script>
+        // Pipeline da Metodologia
+        let currentMethodStep = 1;
+        const totalMethodSteps = 6;
+        const methodPrevBtn = document.getElementById('methodPrevBtn');
+        const methodNextBtn = document.getElementById('methodNextBtn');
+        
+        function updateMethodPipeline() {
+            for (let i = 1; i <= totalMethodSteps; i++) {
+                const box = document.getElementById(`methodStep${i}`);
+                if (box) box.classList.remove('active');
+            }
+            
+            const currentBox = document.getElementById(`methodStep${currentMethodStep}`);
+            if (currentBox) currentBox.classList.add('active');
+            
+            if (methodPrevBtn) methodPrevBtn.disabled = currentMethodStep === 1;
+            if (methodNextBtn) methodNextBtn.disabled = currentMethodStep === totalMethodSteps;
+        }
+        
+        function moveMethodSlide(direction) {
+            const newStep = currentMethodStep + direction;
+            if (newStep >= 1 && newStep <= totalMethodSteps) {
+                currentMethodStep = newStep;
+                updateMethodPipeline();
+            }
+        }
+        
+        // Função para abrir fases (Antes/Durante/Depois)
+        function openPhase(phaseName) {
+            // Remover active de todas as tabs
+            document.querySelectorAll('.phase-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover active de todos os conteúdos
+            document.querySelectorAll('.phase-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Ativar tab clicada
+            document.querySelector(`.phase-tab.phase-${phaseName}`).classList.add('active');
+            
+            // Mostrar conteúdo correspondente
+            document.getElementById(`phase-${phaseName}`).classList.add('active');
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMethodPipeline();
+            openPhase('before');
+        });
+    </script>
+
+</body>
+</html>
