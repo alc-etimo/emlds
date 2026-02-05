@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study 3: From Syntactic Trees to Process Trees – Portfolio for EMLDS Admissions Committee</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-light: #e8f0f8;
+            --accent: #2c5282;
+            --accent-light: #4a90e2;
+            --danger: #c53030;
+            --warning: #d69e2e;
+            --success: #2f855a;
+            --border: #cbd5e0;
+            --border-light: #e2e8f0;
+            --card: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            max-width: 250mm;
+            margin: 0 auto;
+            padding: 15mm;
+            font-size: 10.5pt;
+        }
+        
+        /* CASE HEADER */
+        .case-header {
+            text-align: center;
+            border-bottom: 4px solid #003366;
+            padding-bottom: 20pt;
+            margin-bottom: 25pt;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20pt;
+            border-radius: 8px;
+        }
+        
+        .case-number {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 1.5pt;
+        }
+        
+        .case-header h1 {
+            font-size: 18pt;
+            color: #003366;
+            margin-bottom: 2pt;
+            text-transform: none;
+            letter-spacing: normal;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .case-subtitle {
+            font-size: 12pt;
+            color: #003366;
+            font-weight: 600;
+            margin-bottom: 15pt;
+            font-style: italic;
+        }
+        
+        .case-tags {
+            margin-top: 15pt;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6pt;
+        }
+        
+        .case-tag {
+            display: inline-block;
+            background: #003366;
+            color: white;
+            padding: 4pt 10pt;
+            border-radius: 5px;
+            font-size: 9.5pt;
+            font-weight: bold;
+            margin-right: 0;
+            margin-bottom: 8pt;
+        }
+        
+        /* RESEARCH STATEMENT */
+        .research-statement {
+            background: #f9f9f9;
+            padding: 15pt;
+            border-left: 4px solid #003366;
+            font-style: italic;
+            margin-bottom: 20pt;
+            text-align: justify;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* SECTIONS & TITLES */
+        section {
+            margin-bottom: 30pt;
+            page-break-inside: avoid;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            border-bottom: 3px solid #003366;
+            padding-bottom: 5pt;
+            margin-bottom: 15pt;
+            text-transform: uppercase;
+            letter-spacing: 0.8pt;
+        }
+        
+        h3 {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #003366;
+            margin-top: 18pt;
+            margin-bottom: 10pt;
+            border-left: 5px solid #003366;
+            padding-left: 10pt;
+        }
+        
+        /* CARDS GRID */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .process-card {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .process-card h4 {
+            color: #003366;
+            font-size: 11pt;
+            margin-bottom: 8pt;
+            font-weight: bold;
+        }
+        
+        /* TWO COLUMNS */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20pt;
+            margin: 20pt 0;
+        }
+        
+        .problem-box, .solution-box {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .problem-box h3, .solution-box h3 {
+            text-align: center;
+            margin-top: 3pt;
+            border: none;
+            padding-left: 0;
+            color: #003366;
+            margin-bottom: 12pt;
+            padding-bottom: 8pt;
+            border-bottom: 1px solid #003366;
+        }
+
+        /* CLICK HINT */
+        .click-hint {
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 9pt; 
+            color: var(--accent); 
+            margin-bottom: 8pt; 
+            font-style: italic;
+        }
+        
+        .hand-icon { 
+            width: 18px; 
+            height: 18px;
+            transform: rotate(-180deg);
+            fill: var(--accent); 
+            margin: 0 2px;
+        }
+
+        .hand-icon.left { 
+            transform: rotate(90deg); 
+        }
+
+        .hand-icon.right { 
+            transform: rotate(-90deg); 
+        }
+
+        /* IMAGE CONTAINER */
+        .image-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15pt;
+            margin: 15pt 0;
+            background: #fafafa;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .image-caption {
+            font-size: 9.5pt;
+            color: #666;
+            margin-top: 8pt;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* ANALYSIS BOXES */
+        .analysis-box {
+            background: #fff; 
+            border: 1px solid var(--border);
+            padding: 15pt; 
+            border-radius: 6px; 
+            margin-top: 15pt;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .analysis-box h4 { 
+            font-size: 10pt; 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            margin-bottom: 8pt;
+            padding-bottom: 4pt;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        ul.analysis-list { 
+            margin-left: 0;
+            margin-top: 0;
+        }
+        
+        ul.analysis-list li { 
+            margin-bottom: 12pt;
+            font-size: 10pt; 
+            list-style: none;
+            padding-left: 15pt;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        ul.analysis-list li::before { 
+            content: '→'; 
+            position: absolute; 
+            left: 0; 
+            color: var(--primary); 
+        }
+
+        /* TECHNICAL TERMS */
+        .tech-term {
+            background: var(--primary-light);
+            color: var(--accent);
+            padding: 1pt 4pt;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 9.5pt;
+            cursor: help;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tech-term:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tech-term::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 70%;
+            transform: translateX(-40%);
+            background: rgba(44, 82, 130, 0.95);
+            color: white;
+            padding: 6pt 10pt;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            margin-bottom: 6pt;
+        }
+
+        .tech-term:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* COMPARISON TABLE */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20pt 0;
+            font-size: 9pt;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8c 100%);
+            color: white;
+            padding: 10pt;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 8pt 10pt;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* STRUCTURAL MAPPING */
+        .structural-mapping {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 20pt;
+            margin: 25pt 0;
+            box-shadow: 0 6px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .structural-mapping h3 {
+            text-align: center;
+            border: none;
+            margin-top: 0;
+            margin-bottom: 20pt;
+            color: var(--primary);
+            padding-left: 0;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 10pt;
+        }
+        
+        .tree-mapping {
+            margin-top: 15pt;
+        }
+        
+        .tree-mapping h4 {
+            color: var(--accent);
+            margin-bottom: 10pt;
+            font-size: 11pt;
+            text-align: center;
+        }
+        
+        .mapping-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8pt;
+            padding: 8pt;
+            background: #f8fafd;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s ease;
+        }
+        
+        .mapping-item:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-light);
+        }
+        
+        .mapping-from {
+            flex: 1;
+            font-weight: bold;
+            color: #4a90e2;
+            text-align: right;
+            padding: 6pt 10pt;
+            border-right: 2px dashed #ccc;
+        }
+        
+        .mapping-to {
+            flex: 1;
+            font-weight: bold;
+            color: #2f855a;
+            text-align: left;
+            padding: 6pt 10pt;
+        }
+        
+        .mapping-arrow {
+            padding: 0 12pt;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 12pt;
+        }
+
+        /* INTERACTIVE REWRITE */
+        .interactive-rewrite {
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20pt 0;
+            background: var(--card);
+        }
+        
+        .tab-nav { 
+            display: flex; 
+            background: var(--primary-light); 
+            border-bottom: 1px solid var(--border); 
+        }
+        
+        .tab-btn { 
+            flex: 1; 
+            padding: 10pt; 
+            border: none; 
+            background: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: var(--primary); 
+            transition: 0.3s; 
+            font-size: 10pt;
+        }
+        
+        .tab-btn.active { 
+            background: var(--primary); 
+            color: white; 
+        }
+        
+        .tab-content { 
+            padding: 20pt; 
+            display: none; 
+        }
+        
+        .tab-content.active { 
+            display: block; 
+        }
+
+        /* SCROLLING TEXT ANIMATION */
+        .scrolling-container {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            height: 300px;
+            position: relative;
+            background: #f8fafd;
+        }
+        
+        .scrolling-text {
+            position: absolute;
+            width: 100%;
+            padding: 15pt;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            animation: scrollUp 30s linear infinite;
+        }
+        
+        @keyframes scrollUp {
+            0% { top: 100%; }
+            100% { top: -300%; }
+        }
+
+        /* CHATBOT FUNCTIONAL */
+        .chatbot-interface {
+            background: #f8fafd;
+            border-radius: 8px;
+            padding: 20pt;
+            border: 1px solid var(--border);
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chatbot-message {
+            background: white;
+            border-radius: 10px;
+            padding: 12pt;
+            margin-bottom: 15pt;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: #333;
+        }
+        
+        .chatbot-question {
+            background: var(--primary-light);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .chatbot-options {
+            display: flex;
+            gap: 10pt;
+            margin-top: 10pt;
+            margin-bottom: 15pt;
+        }
+        
+        .chatbot-btn {
+            flex: 1;
+            padding: 10pt;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 9.5pt;
+        }
+        
+        .chatbot-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .chatbot-instruction {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 6px;
+            padding: 15pt;
+            margin-top: 10pt;
+            color: #333;
+            font-size: 9.5pt;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .chatbot-instruction.active {
+            display: block;
+        }
+        
+        .back-btn {
+            margin-top: 15pt;
+            padding: 8pt 16pt;
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 9.5pt;
+        }
+        
+        .back-btn:hover {
+            background: #2d3748;
+        }
+
+        /* VISUAL PROOF - SIDE-BY-SIDE TREES */
+        .trees-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20pt;
+            margin: 25pt 0;
+        }
+        
+        .tree-box {
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 6px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .tree-header {
+            background: var(--primary);
+            color: white;
+            padding: 12pt;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10.5pt;
+        }
+        
+        .tree-content {
+            padding: 20pt;
+            font-family: 'Courier New', monospace;
+            font-size: 9.5pt;
+            line-height: 1.8;
+            min-height: 300px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .tree-caption {
+            padding: 12pt;
+            font-size: 9.5pt;
+            text-align: center;
+            color: var(--accent);
+            border-top: 1px solid var(--border-light);
+            background: #f8fafd;
+        }
+
+        /* TREE DIAGRAM */
+        .tree-diagram {
+            font-family: 'Courier New', monospace;
+            background: #f0f4f9;
+            padding: 5pt;
+            border-radius: 8px;
+            margin: 5pt 0;
+            line-height: 1.8;
+            border: 1px solid var(--border);
+            font-size: 9pt;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* PROTOTYPE COMPARISON */
+        .prototype-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5pt;
+            margin: 5pt 0;
+        }
+        
+        .prototype-box {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 5pt;
+            background: white;
+            text-align: center;
+            width: 380px;
+        }
+        
+        .prototype-label {
+            font-size: 9.5pt;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10pt;
+            padding-bottom: 5pt;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* RESULTS IN 3 BOXES */
+        .results-triple {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20pt;
+            margin: 25pt 0;
+        }
+        
+        .results-box {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            width: 100%;
+        }
+        
+        .results-box h3 {
+            text-align: left;
+            margin-top: 0;         
+            margin-bottom: 15pt;
+            padding-bottom: 8pt;            
+        }
+
+        /* METRICS GRID */
+        .metrics-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15pt;
+            margin-top: 15pt;
+        }
+        
+        .metric-card {
+            background: #f0f7ff;
+            border: 1px solid #003366;
+            border-radius: 6px;
+            padding: 12pt;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 4pt;
+        }
+        
+        .metric-label {
+            font-size: 9pt;
+            color: #666;
+        }
+        
+        
+        
+        /* LISTS */
+        ul {
+            margin-left: 20pt;
+            margin-top: 8pt;
+        }
+        
+        li {
+            margin-bottom: 8pt;
+            text-align: justify;
+        }
+        
+        strong {
+            color: #003366;
+        }
+        
+        /* IMAGE PLACEHOLDER */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-style: italic;
+            font-size: 10pt;
+            margin: 10pt 0;
+        }
+        
+        /* THEORY NOTE */
+        .theory-note {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+            padding: 12pt;
+            margin: 15pt 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 9pt;
+            color: #744210;
+        }
+        
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .two-columns, .trees-comparison, .prototype-comparison {
+                grid-template-columns: 1fr;
+                gap: 15pt;
+            }
+            
+            .tab-nav {
+                flex-direction: column;
+            }
+            
+            .metrics-box {
+                grid-template-columns: 1fr;
+            }
+            
+            .mapping-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .mapping-from {
+                border-right: none;
+                border-bottom: 2px dashed #ccc;
+                text-align: center;
+                padding-bottom: 8pt;
+                margin-bottom: 6pt;
+            }
+            
+            .mapping-arrow {
+                padding: 6pt 0;
+                transform: rotate(90deg);
+            }
+        }
+        
+        @media print {
+            body { padding: 5mm; }
+            .chatbot-btn, .back-btn { display: none; }
+            .scrolling-text { animation: none; }
+        }
+
+        /* NEW: EPISTEMOLOGICAL POSITIONING */
+        .epistemological-opening {
+            background: linear-gradient(135deg, #f0f7ff 0%, #d6e4ff 100%);
+            padding: 20pt;
+            border-radius: 8px;
+            margin-bottom: 25pt;
+            border-left: 4px solid #003366;
+        }
+
+        /* PIPELINE WRAPPER (from Case 1) */
+        .pipeline-wrapper {
+            position: relative;
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30pt 50pt;
+            margin: 20pt 0;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pipeline-container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            transition: transform 0.6s ease;
+        }
+        
+        .pipeline-box {
+            width: 450px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20pt;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: absolute;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.4s ease;
+        }
+        
+        .pipeline-box.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11pt;
+            font-weight: bold;
+            z-index: 3;
+        }
+        
+        .arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 51, 102, 0.2);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+        }
+        
+        .arrow-btn:hover {
+            background: rgba(0, 51, 102, 0.8);
+            opacity: 1;
+        }
+        
+        .arrow-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+        
+        .arrow-btn:disabled:hover {
+            background: rgba(0, 51, 102, 0.2);
+        }
+        
+        .arrow-btn.prev {
+            left: 10px;
+        }
+        
+        .arrow-btn.next {
+            right: 10px;
+        }
+
+        /* TRANSFORMATION FLOW */
+        .transformation-flow {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15pt;
+            margin: 20pt 0;
+        }
+        
+        .transformation-phase {
+            background: white;
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 5px solid;
+        }
+        
+        .transformation-phase:hover {
+            transform: translateY(-5px);
+        }
+        
+        .phase-1 { border-color: #c53030; }
+        .phase-2 { border-color: #d69e2e; }
+        .phase-3 { border-color: #2f855a; }
+        
+        .transformation-phase h4 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 10pt;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+
+.footer {
+    text-align: center;
+    margin-top: 50pt;
+    padding-top: 20pt;
+    border-top: 2px solid #003366;
+    color: #003366; /* Caso a variável --accent não carregue, usei o azul do border */
+    font-size: 9pt;
+    line-height: 1.5;
+}
+
+.restricted {
+    margin-top: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 8pt;
+    opacity: 0.8;
+}
+    </style>
+</head>
+<body>
+
+    <!-- CASE HEADER -->
+    <div class="case-header">
+        <div class="case-number">CASE STUDY 3 – EMLDS ADMISSIONS PORTFOLIO</div>
+        <h1>From Syntactic Trees to Process Trees:</h1>
+        <div class="case-subtitle">How Syntactic Hierarchy Organized Corporate Service Operations</div>
+        <div class="case-tags">
+            <span class="case-tag">X‑Bar Theory Application</span>
+            <span class="case-tag">Syntactic Hierarchy</span>
+            <span class="case-tag">Decision Trees</span>
+            <span class="case-tag">Applied Syntax</span>
+            <span class="case-tag">Cognitive Linguistics</span>
+            <span class="case-tag">Process Modeling</span>
+        </div>
+    </div>
+
+    <!-- EPISTEMOLOGICAL OPENING -->
+    <section id="epistemological-opening">
+        <h2>1. EPISTEMOLOGICAL POSITIONING: SYNTAX AS UNIVERSAL MODELING LANGUAGE</h2>
+        
+        <div class="epistemological-opening" style="text-align:justify;">
+            <strong>Research Proposition</strong>: This case study demonstrates that the hierarchical principles of syntactic theory, specifically X‑Bar Theory, provide a universal modeling language for organizing complex information systems. By applying syntactic hierarchy to corporate process design, the research reveals that syntax is not merely a linguistic faculty but a cognitive architecture for structuring any complex, multi‑level system. The work bridges theoretical linguistics and operational optimization through systematic structural mapping.
+        </div>
+    </section>
+
+    <!-- RESEARCH CONTEXT -->
+    <section id="research-context">
+        <h2>2. RESEARCH CONTEXT: LINEAR TEXT VS. HIERARCHICAL PROCESSING</h2>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>The Empirical Problem</h3>
+                <ul>
+                    <li><strong>Data Source</strong>: Real corporate call‑center procedures in a multinational telecommunications company, documented as linear text files</li>
+                    <li><strong>Scale</strong>: Thousands of daily customer‑agent interactions requiring rapid access to hierarchical decision protocols</li>
+                    <li><strong>Problem</strong>: Linear text formats forced cognitive "scrolling" and violated natural decision‑making hierarchies</li>
+                    <li><strong>Consequence</strong>: Increased handling time, operational errors, and agent frustration due to structural misalignment between documentation and cognitive processing</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>Theoretical Framework</h3>
+                <ul>
+                    <li><strong>Syntactic Theory as Modeling Language</strong>: X‑Bar Theory (XP → X′ → X) provided a universal template for hierarchical organization</li>
+                    <li><strong>Structural Isomorphism</strong>: Identified equivalence between syntactic constituents and process components (CP → IP → VP)</li>
+                    <li><strong>Cognitive Alignment</strong>: Designed process flows that mirror natural human decision‑making (binary branching, locality, projection)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="process-card">
+                <h4>Cognitive Violence</h4>
+                <p>Linear texts required constant scrolling and context‑loss during phone interactions</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>Flat Structure</h4>
+                <p>Questions, answers, and actions intermixed without visual hierarchy</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>Procedural Scrambling</h4>
+                <p>Illogical step ordering (e.g., "check email" before "does the cliente have internet access?") violating canonical resolution sequences</p>
+            </div>
+        </div>
+        
+        <div class="research-statement" style="background: #fff5f5; border-left-color: #dc2626; text-align:justify;">
+            <strong>Internal Research Finding</strong>: "Agents took too long to locate information during customer calls and hated 'scrolling' through screens. Processes with 24+ steps generated excessive handling times and operational errors."
+        </div>
+    </section>
+
+    <!-- THEORETICAL FOUNDATION -->
+    <section id="theoretical-foundation">
+        <h2>3. THEORETICAL FOUNDATION: X‑BAR THEORY AS METALANGUAGE</h2>
+        
+        <p style="text-align: justify;">
+            My undergraduate training in syntactic theory enabled the identification of a fundamental structural equivalence between linguistic organization and process organization:
+        </p>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th style="text-align:center;">SYNTACTIC STRUCTURE</th>
+                    <th style="text-align:center;">PROCESS STRUCTURE</th>
+                    <th style="text-align:center;">STRUCTURAL CORRESPONDENCE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align:center;"><span class="tech-term" data-tooltip="Universal hierarchical model: XP (macro level), X′ (intermediate level), X (head)">X‑Bar Tree (XP → X′ → X)</span></td>
+                    <td style="text-align:center;"><strong>Decision Tree</strong></td>
+                    <td style="text-align:center;">Hierarchical organization in levels</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;"><span class="tech-term" data-tooltip="In practice: the root question that projects the entire flow">C° (Complementizer)</span></td>
+                    <td style="text-align:center;"><strong>Root Question of the Process</strong></td>
+                    <td style="text-align:center;">Element that projects the entire structure</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;"><span class="tech-term" data-tooltip="In practice: decision branches (YES/NO) as complements">IP (Inflection Phrase)</span></td>
+                    <td style="text-align:center;"><strong>Response Options (YES/NO)</strong></td>
+                    <td style="text-align:center;">Logical bifurcation directing the flow</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;"><span class="tech-term" data-tooltip="In practice: terminal executable actions: the 'verbs' of the process">VP (Verb Phrase)</span></td>
+                    <td style="text-align:center;"><strong>Specific Actions to Execute</strong></td>
+                    <td style="text-align:center;">Tree terminals (concrete steps)</td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;"><span class="tech-term" data-tooltip="In practice: YES/NO values functioning as uninterpretable features">[±F] Features</span></td>
+                    <td style="text-align:center;"><strong>YES/NO Values Driving Derivation</strong></td>
+                    <td style="text-align:center;">Properties controlling flow direction</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="theory-note" style="text-align:justify;">
+            <strong>Note on Nomenclature:</strong> While aware of the evolution to TP (Tense Phrase) in current Minimalism, I retain the <strong>IP (Inflection Phrase)</strong> terminology from my undergraduate training, maintaining fidelity to the theoretical framework in which I was educated.
+        </div>
+        
+        <div class="research-statement" style="background: #e3f2fd; border-left-color: #2c5282; style="text-align:justify;">
+            <strong>Central Hypothesis:</strong> If syntax organizes words into phrases through universal hierarchical principles (X‑Bar), these same principles can organize actions into efficient, unambiguous business processes. What is "scrambling" in syntax is "procedural disorder" in standard operating procedures (SOPs).
+        </div>
+
+        <!-- STRUCTURAL MAPPING 1:1 -->
+        <div class="structural-mapping">
+            <h3>1:1 STRUCTURAL MAPPING</h3>
+            <p style="text-align: center; margin-bottom: 15pt; font-size: 10pt; color: #666;">
+                How each process element was translated to its syntactic counterpart:
+            </p>
+            
+            <div class="tree-mapping">
+                <h4>Process → Syntax Translation</h4>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">Maximum Process Level</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">CP (Complementizer Phrase)</div>
+                </div>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">Main Action (Head)</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">V° (Verb Head)</div>
+                </div>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">Mandatory Information</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">V° Complements</div>
+                </div>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">Conditions/Exceptions</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">Adjuncts (CP/IP/VP)</div>
+                </div>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">YES/NO Branching</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">Coordination/Embedded CPs</div>
+                </div>
+                
+                <div class="mapping-item">
+                    <div class="mapping-from">Agent (Operator)</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-to">Specifier of vP</div>
+                </div>
+            </div>
+            
+            <div class="research-statement" style="background: #f0f7ff; border-left-color: #4a90e2; margin-top: 20pt; text-align:justify;">
+                <strong>Applied Translation:</strong>: Each corporate process element found an exact syntactic counterpart. This systematic translation allowed the application of <strong>the entire theoretical machinery of syntax</strong> (X‑Bar Theory, selection, features, locality) to diagnose and correct process‑structuring problems.
+            </div>
+        </div>
+    </section>
+
+    <!-- METHODOLOGICAL PIPELINE -->
+    <section id="methodological-pipeline">
+        <h2>4. METHODOLOGICAL PIPELINE: FROM SYNTAX TO PROCESS DESIGN</h2>
+        
+        <div class="research-statement" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #2c5282; text-align:justify;">
+            <strong>Methodological Contribution</strong>: The pipeline developed represents a replicable methodology for applying syntactic hierarchy to process optimization. Each stage incorporates explicit structural principles from syntactic theory, demonstrating how abstract linguistic models can generate concrete operational improvements.
+        </div>
+        
+        <div class="pipeline-wrapper">
+            <button class="arrow-btn prev" onclick="moveMethodSlide(-1)" id="methodPrevBtn" disabled>❮</button>
+            
+            <div class="pipeline-container" id="methodPipeline">
+                <!-- Box 1 -->
+                <div class="pipeline-box active" id="methodStep1">
+                    <div class="step-number">1</div>
+                    <strong style="font-size: 10pt; color: var(--primary);">Corpus Analysis & Structural Diagnosis</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        <strong>Research Purpose:</strong> To identify structural violations (scrambling, flatness, locality breaches) in existing process documentation
+                    </p>
+                    <p style="font-size: 9.5pt; margin-top: 6pt; color: #555;">
+                        <strong>Theoretical Criterion</strong>: Identification of XP, X′, X levels and their violations
+                    </p>
+                </div>
+                
+                <!-- Box 2 -->
+                <div class="pipeline-box" id="methodStep2">
+                    <div class="step-number">2</div>
+                    <strong style="font-size: 10pt; color: var(--primary);">Structural Mapping & Equivalence Establishment</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        <strong>Research Purpose</strong>: To create systematic correspondences between process elements and syntactic constituents
+                    </p>
+                    <p style="font-size: 9.5pt; margin-top: 6pt; color: #555;">
+                          <strong>Theoretical Criterion</strong>: 1:1 mapping preserving hierarchical relations
+                    </p>
+                </div>
+                
+                <!-- Box 3 -->
+                <div class="pipeline-box" id="methodStep3">
+                    <div class="step-number">3</div>
+                    <strong style="font-size: 10pt; color: var(--primary);">Tree Generation & Well‑Formedness Checking</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        <strong>Research Purpose:</strong> To generate hierarchical trees that satisfy X‑Bar principles and process requirements
+                    </p>
+                    <p style="font-size: 9.5pt; margin-top: 6pt; color: #555;">
+                          <strong>Theoretical Criterion</strong>: Projection, selection, and locality satisfaction
+                    </p>
+                </div>
+                
+                <!-- Box 4 -->
+                <div class="pipeline-box" id="methodStep4">
+                    <div class="step-number">4</div>
+                    <strong style="font-size: 10pt; color: var(--primary);">Interface Realization & Cognitive Alignment</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        <strong>Research Purpose:</strong> To materialize abstract trees into user interfaces that align with human decision‑making
+                    </p>
+                    <p style="font-size: 9.5pt; margin-top: 6pt; color: #555;">
+                          <strong>Theoretical Criterion</strong>: Syntax‑phonology interface realized as UI design
+                    </p>
+                </div>
+                
+                <!-- Box 5 -->
+                <div class="pipeline-box" id="methodStep5">
+                    <div class="step-number">5</div>
+                    <strong style="font-size: 10pt; color: var(--primary);">Validation & Metrics Collection</strong>
+                    <p style="font-size: 9.5pt; margin-top: 8pt; color: #555;">
+                        <strong>Research Purpose</strong>: To measure operational improvements and validate theoretical predictions
+                    </p>
+                    <p style="font-size: 9.5pt; margin-top: 6pt; color: #555;">
+                        <strong>Theoretical Criterion</strong>: Empirical validation of efficiency gains predicted by structural optimization
+                    </p>
+                </div>
+            </div>
+            
+            <button class="arrow-btn next" onclick="moveMethodSlide(1)" id="methodNextBtn">❯</button>
+        </div>
+    </section>
+
+    <!-- VISUAL PROOF -->
+    <section id="visual-proof">
+        <h2>5. VISUAL PROOF: THE SAME TREES, DIFFERENT DOMAINS</h2>
+        
+        <p style="text-align: justify; margin-bottom: 15pt;">
+            Compare the syntactic tree structure from undergraduate training with the process tree developed in the corporate environment:
+        </p>
+        
+        <div class="trees-comparison">
+            <!-- SYNTACTIC TREE -->
+            <div class="tree-box">
+                <div class="tree-header" style="background: #2f855a;">
+                    CLASSROOM: SYNTACTIC ANALYSIS
+                </div>
+                <div class="tree-content">
+                    <div class="image-container">
+                        <!-- PLACEHOLDER: Image will be hosted in separate repository -->
+                        <div class="image-placeholder" style="height: 330px; display: flex; align-items: center; justify-content: center; color: #666; font-style: italic;">
+                           <img src="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-classroom-tree.png?raw=true" style="width:100%;height:auto; margin-bottom:20px;"/><br>
+                            
+                        </div>
+<center><em><strong>Figure 1:</strong> Classroom tree projection illustrating the constituent hierarchy and syntactic movement of the sentence "Maria bought the syntax book."</em></center>
+                    </div>
+                </div>
+                <div class="tree-caption" style="border-left: 4px solid #2f855a;margin-top:35px;">
+                    <strong>X‑Bar Structure in Natural Language</strong><br>
+                    CP (implicit question) → IP (subject+tense) → VP (action+arguments)
+                </div>
+            </div>
+            
+            <!-- PROCESS TREE -->
+            <div class="tree-box">
+                <div class="tree-header" style="background: #4a90e2;">
+                    INDUSTRY: PROCESS TREE
+                </div>
+                <div class="tree-content">
+                    <div class="image-container">
+                        <!-- PLACEHOLDER: Image will be hosted in separate repository -->
+                        <div class="image-placeholder" style="height: 330px; display: flex; align-items: center; justify-content: center; color: #666; font-style: italic; ">
+                       <a href="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-industry-tree-complete.jpg?raw=true" target="_blank;"/><img src="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-industry-tree-partial.jpeg?raw=true" style="width:100%;height:auto;margin-bottom:10px;"> </a>    </div>
+
+                            <strong><em>Figure 2</strong>: Process decision tree for handling customer service requests, illustrating the validation logic for data confirmation.</em>
+                        
+                    </div>
+                </div>
+                <div class="click-hint">
+                    <span style="transform: scaleY(-1); vertical-align: middle;">
+                        <svg class="hand-icon" viewBox="0 0 24 24">
+                            <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+                        </svg>
+                    </span>
+                    Click image to view in higher resolution
+                </div>
+                <div class="tree-caption" style="border-left: 4px solid #4a90e2;">
+                    <strong>X‑Bar Structure in Corporate Process</strong><br>
+                    CP (root question) → IP (RESIDENTIAL/MOBILE decision) → VP (executable actions)
+                </div>
+            </div>
+        </div>
+        
+        <div class="research-statement" style="background: #e8f0f8; border-left-color: #2c5282;text-align:justify;">
+            <strong>For the EMLDS Committee</strong>: This comparison is not metaphorical. It is the <strong>same deep grammar</strong>. What changes is the domain: instead of organizing words, we organize actions. Instead of subject and predicate, we have context and procedure. Thus, te XP → X′ → X structure can be read as an <strong>universal model</strong> for hierarchical organization of complex information.
+        </div>
+    </section>
+
+    <!-- PARADIGMATIC CASE -->
+    <section id="paradigmatic-case">
+        <h2>6. PARADIGMATIC CASE: SYNTACTIC TRANSFORMATION IN 3 ACTS</h2>
+        
+        <div class="click-hint">
+            <svg class="hand-icon" viewBox="0 0 24 24">
+                <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+            </svg>
+            Click each tab to view the complete transformation
+        </div>
+
+        <div class="interactive-rewrite">
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="openTab(event, 'caseBefore')">BEFORE: The Chaos</button>
+                <button class="tab-btn" onclick="openTab(event, 'caseDuring')">DURING: Analysis & Prototyping</button>
+                <button class="tab-btn" onclick="openTab(event, 'caseAfter')">AFTER: Well‑Formed Structure</button>
+            </div>
+
+            <!-- TAB 1: BEFORE -->
+            <div id="caseBefore" class="tab-content active">
+                <h4 style="font-size: 10pt; color: var(--danger); text-align: center; margin-bottom: 15pt;">
+                    ORIGINAL FLOW: LINEAR AND CONFUSING TEXT
+                </h4>
+                
+                <div class="scrolling-container">
+                    <div class="scrolling-text" id="scrollingText">
+                        <strong>Procedure: Customer with no audio in Y‑Video product</strong><br><br>
+                        Step 1. Ask if the customer can hear other videos.<br><br>
+                        <strong>Can the customer hear other videos?</strong><br><br>
+                        <strong>YES</strong><br>
+                        Step 1. Tell the customer there is no problem.<br>
+                        Step 2. Thank them for contacting.<br>
+                        Step 3. End the service.<br><br>
+                        <strong>NO</strong><br>
+                        Step 1. Check if speakers are connected. But first confirm volume is at maximum.<br>
+                        Step 2. Update drivers if needed but only after checking previous steps.<br>
+                        Step 3. Open a ticket using category Complaint > Broadband > Services and Products > Y‑Video.<br><br>
+                        Important: Response within 5 business days.<br><br>
+                        <strong>Alternative Procedure:</strong><br>
+                        If customer has headphones, test with them too.<br><br>
+                        <strong>Additional Notes:</strong><br>
+                        For customers with TV the procedure is different: check audio settings in main menu.<br><br>
+                        <strong>Complaint Flow:</strong><br>
+                        1. Access system.<br>
+                        2. Select "Open Case".<br>
+                        3. Fill customer data.<br>
+                        4. Choose category mentioned above.<br>
+                        5. Add observations if needed.<br>
+                        6. Send and note protocol number.<br><br>
+                        Always confirm customer email for response delivery.<br><br>
+                        <strong>Frequent Questions:</strong><br>
+                        Q: What if customer doesn't have drivers?<br>
+                        R: Guide to manufacturer website.<br><br>
+                        Q: What if it's a TV problem?<br>
+                        R: Refer to TV technical support.<br><br>
+                        Continue scrolling for more information...
+                    </div>
+                </div>
+                
+                <div class="analysis-box" style="margin-top: 20pt;">
+                    <h4>Syntactic Problems Identified:</h4>
+                    <ul class="analysis-list">
+                        <li><span class="tech-term" data-tooltip="Agent must search for information in running text">Flat Structure:</span> Text is a linear list without logical branching, forcing mental "parsing."</li>
+                        <li><span class="tech-term" data-tooltip="Creates ambiguity: agent doesn't know if information is mandatory or optional">Complements and Adjuncts Mixed:</span> Essential actions ("check speakers") appear alongside contextual notes ("customers with TV").</li>
+                        <li><span class="tech-term" data-tooltip="Illogical order forces agent to mentally redo canonical sequence">Procedural Scrambling:</span> "Update drivers" (complex action) precedes "check volume" (basic diagnosis), violating canonical resolution order.</li>
+                        <li><span class="tech-term" data-tooltip="Process starts without context = agent doesn't know why they're executing actions">EPP (Extended Projection Principle) Violation:</span> Process begins with actions without clearly establishing context ("What's the problem?").</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TAB 2: DURING -->
+            <div id="caseDuring" class="tab-content">
+                <h4 style="font-size: 10pt; color: var(--warning); text-align: center; margin-bottom: 15pt;">
+                    SYNTACTIC ANALYSIS & PROTOTYPING
+                </h4>
+                
+                <h5 style="font-size: 9.5pt; color: var(--primary); margin-bottom: 10pt;">Part 1: Syntactic Analysis of Process (Tree Projection)</h5>
+                
+                <div class="tree-diagram">
+                    <center><strong>TREE OF "CUSTOMER WITH NO AUDIO IN Y‑VIDEO" FLOW <br>[CP – Complementizer Phrase]</strong></center>
+                    
+    ├── ROOT QUESTION: "Customer with no audio in video?" [C°]
+    │
+    ├── YES BRANCH: "Has low audio?" [IP[YES] – Inflection Phrase]
+    │   ├── ACTION 1: Check volume configuration [V°]
+    │   ├── ACTION 2: Test speaker connection [Complement]
+    │   └── ACTION 3: Suggest test with other content [Adjunct]
+    │
+    └── NO BRANCH: "Has no audio at all?" [IP[NO] – Inflection Phrase]
+        ├── ACTION 1: Diagnose hardware/software [V°]
+        ├── ACTION 2: Open technical ticket [Complement]
+        └── ACTION 3: Register and close [Adjunct]
+                </div>
+                
+                <div style="margin: 10pt 0; text-align: center; font-size: 9pt; color: #666;">
+                    <strong>Structural analysis:</strong> CP (context) → IP (YES/NO decision) → VP (executable actions) = XP → X′ → X
+                </div>
+                
+                <h5 style="font-size: 9.5pt; color: var(--primary); margin-top: 20pt; margin-bottom: 10pt;">Part 2: Materialization of Syntactic Tree into Interface</h5>
+                
+               <center> <div class="prototype-comparison">
+                    <!-- BEFORE PROTOTYPE -->
+                    <div class="prototype-box" style="box-sizing: none;">
+
+
+                        <div class="prototype-label" style="color: var(--danger);">BEFORE: Flat Structure</div>
+
+<div class="click-hint">
+                    <span style="vertical-align: middle;">
+                        <svg class="hand-icon" viewBox="0 0 24 24">
+                            <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+                        </svg>
+                    </span>
+                    Click image to view in higher resolution
+                </div>
+
+                        <div class="image-container">
+                            <div class="image-placeholder" style="height: 300px; display: flex; align-items: center; justify-content: center; color: #666; font-style: italic;">
+<a href="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-linear-structure.png?raw=true" target="_blank;">
+<img src="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-linear-structure.png?raw=true" style="width:100%;height:100%;"/></a>
+                               
+                            </div>
+ <strong><em>Figure 3</strong>: Original flat table with mixed YES/NO in same cell</em>
+                        </div>
+                        <div style="font-size: 9pt; color: #666; margin-top: 8pt;">
+                            <br>
+                            <strong>Problems:</strong>
+                            <ul><li> Linear text with YES/NO in same cell</li>
+                                <li>Hierarchy violation</li>
+                                <li>Conflicting options (YES/NO) in same syntactic node, forcing linear reading</li></ul>
+                        </div>
+                    </div>
+                    
+                    <!-- AFTER PROTOTYPE -->
+                    <div class="prototype-box">
+                        <div class="prototype-label" style="color: var(--success);">AFTER: Hierarchical Prototype</div>
+
+<div class="click-hint">
+                    <span style="vertical-align: middle;">
+                        <svg class="hand-icon" viewBox="0 0 24 24">
+                            <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+                        </svg>
+                    </span>
+                    Click image to view in higher resolution
+                </div>
+
+                        <div class="image-container">
+                            <div class="image-placeholder" style="height: 300px; display: flex; align-items: center; justify-content: center; color: #666; font-style: italic;">
+                             <a href="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-decision-tree-structure.png?raw=true" target="_blank">  <img src="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-decision-tree-structure.png?raw=true" style="width:100%;height:auto;"/></a>
+
+                            </div>
+<em><strong>Figure 4</strong>: Hierarchical table with separate YES/NO columns and anchor links</em>
+
+                        </div>
+                        <div style="font-size: 9pt; color: #666; margin-top: 8pt;"> 
+                            <br>                       
+                            <strong>Solution:</strong> <ul><li> Table with question + YES/NO in separate columns with <strong>anchors (#)</strong></li>
+                                <li>Well‑formed structure</li>
+                                <li>CP (question) projects two distinct IPs (YES/NO), each with link to specific actions</li></ul>
+                        </div>
+                    </div>
+                </div>
+                     </center>                          
+                <div class="research-statement" style="background: #fffbeb; border-left-color: var(--warning); margin-top: 20pt;text-align:"justify;">
+                    <strong>Technical implementation (simplified)</strong>: Used HTML tables with merged cells for the question (CP) and separate columns for YES/NO (IPs). Each option had an <strong>anchor (#)</strong> linking directly to the corresponding action section (VPs). This minimal structure materialized exactly the syntactic tree identified in the analysis.
+                </div>
+            </div>
+
+            <!-- TAB 3: AFTER -->
+            <div id="caseAfter" class="tab-content">
+                <h4 style="font‑size: 10pt; color: var(--success); text‑align: center; margin‑bottom: 15pt;">
+                    <center>WELL‑FORMED STRUCTURE: SYNTAX‑GUIDED FLOW</center>
+                </h4>
+                <div class="click-hint" style="margin-top:10px;">
+                    <svg class="hand-icon" viewBox="0 0 24 24">
+                        <path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z"/>
+                    </svg>
+                    Click YES and NO buttons to interact with the flow and understand the anchors
+                </div>
+
+                <div class="chatbot-interface">
+                    <div class="chatbot-message chatbot-question" id="initialQuestion">
+                        <strong>Customer with no audio in Y‑Video</strong><br>
+                        Can the customer hear the video audio?
+                    </div>
+                    
+                    <div class="chatbot-options" id="initialOptions">
+                        <button class="chatbot-btn" onclick="selectOption('yes')">YES</button>
+                        <button class="chatbot-btn" onclick="selectOption('no')">NO</button>
+                    </div>
+                    
+                    <div id="instructionYes" class="chatbot-instruction">
+                        <strong>Procedure for adjustment (IP[YES]):</strong><br><br>
+                        1. Check volume configuration; guide the customer to adjust it to maximum<br>
+                        2. Test the speaker/headphone connection<br>
+                        3. Suggest testing with other videos/music<br>
+                        4. If needed, walk them through a driver update<br><br>
+                        <em>If the issues gets fixed, thank them for contacting and end the call. If not, return and select NO.</em><br>
+                        <button class="back-btn" onclick="resetChatbot()">↩ Restart query</button>
+                    </div>
+                    
+                    <div id="instructionNo" class="chatbot-instruction">
+                        <strong>Procedure for ticket (IP[NO]):</strong><br><br>
+                        1. Inform the customer that you will open a technical case<br>
+                        2. Register: Complaint → Broadband → Services → Y‑Video<br>
+                        3. Say they will receive a response within 5 business days<br>
+                        4. Thank them for contacting and finish the call<br><br>
+                        <button class="back-btn" onclick="resetChatbot()">↩ Restart query</button>
+                    </div>
+                </div>
+                
+                <div class="analysis-box" style="margin-top: 20pt;">
+                    <h4>Syntactic Principles Applied:</h4>
+                    <ul class="analysis-list">
+                        <li><span class="tech-term" data-tooltip="CP (question) → IP (decision) → VP (action): same sentence structure">X‑Bar Hierarchy Respected:</span> CP (question) → IP (YES/NO bifurcation) → VP (actions).</li>
+                        <li><span class="tech-term" data-tooltip="C° [+question] selects exactly two complements [+YES] and [+NO]">Syntactic Selection (C‑selection):</span> The question (C°) selects exactly two complements (IP[YES] and IP[NO]).</li>
+                        <li><span class="tech-term" data-tooltip="Agent values uninterpretable features, allowing derivation to converge">[±YES] Features Valued:</span> The agent's choice values uninterpretable features, allowing the derivation to converge.</li>
+                        <li><span class="tech-term" data-tooltip="Information appears near decision point (no 'jumps')">Locality (Minimal Link Condition):</span> Each decision leads directly to relevant actions, without cognitive "jumps."</li>
+                        <li><span class="tech-term" data-tooltip="Each scenario (argument) receives an action sequence (thematic role)">Theta Criterion Satisfied:</span> Each scenario (argument) has a defined action sequence (thematic role).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH IMPACT -->
+    <section id="research-impact">
+        <h2>7. QUALITATIVE, QUANTITATIVE, AND INSTITUTIONAL RESULTS</h2>
+        
+        <div class="results-triple">
+            
+            <!-- QUALITATIVE RESULTS -->
+            <div class="results-box">
+                <h3>Qualitative Outcomes</h3>
+                <ul>
+                    <li><strong>Cognitive fatigue reduction</strong>: Agents report less mental effort to follow procedures</li>
+                    <li><strong>Procedural clarity</strong>: Elimination of doubts about "next step" during service</li>
+                    <li><strong>Interface perceived as "natural"</strong>: Binary YES/NO flow aligned with human decision‑making</li>
+                    <li><strong>Spontaneous replicability</strong>: Teams from other sectors began applying the methodology</li>
+                    <li><strong>Positive feedback</strong>:</li>
+                        <div class="research-statement" style="background: #e8f0f8; border-left-color: #2c5282; width: 90%;">
+                            <div class="image-placeholder" style="height: 100px; font-style: normal; color: #666;">
+                                
+<img src="https://github.com/alc-etimo/emlds/blob/main/case%20studies/case%203%20-%20from%20syntactic%20trees%20to%20process%20trees/images/case-3-agent-coment.png?raw=true" style="width:100%;height:auto;"></div>
+<br>
+
+<em><strong>Figure 5</strong>: Agent Feedback Report<br>
+
+    <table style="width: 100%; border-collapse: collapse; border: none;">
+        <thead>
+            <tr style="text-align: left; border-bottom: 1px solid #eee;">
+                <th style="padding: 8px 0; font-weight: 600;">Reviews</th>
+                <th style="padding: 8px 0; font-weight: 600;">Sentiment</th>
+                <th style="padding: 8px 0; font-weight: 600;">Message Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 8px 0;">I found it very practical</td>
+                <td style="padding: 8px 0;">Positive</td>
+                <td style="padding: 8px 0;">Praise</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px 0;">I liked it, I found the information easy to locate</td>
+                <td style="padding: 8px 0;">Positive</td>
+                <td style="padding: 8px 0;">Praise</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px 0;">I found the information easy to locate</td>
+                <td style="padding: 8px 0;">Positive</td>
+                <td style="padding: 8px 0;">Praise</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+                            </div>
+                        </div>
+                </ul>
+            </div>
+            
+            <!-- QUANTITATIVE RESULTS -->
+            <div class="results-box">
+                <h3>Quantitative Outcomes</h3>
+                <div class="metrics-box">
+                    <div class="metric-card">
+                        <div class="metric-value">35%</div>
+                        <div class="metric-label">Reduction in Average<br>Handling Time (AHT)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">TOP 2%</div>
+                        <div class="metric-label">Most accessed content<br>on the platform</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">87%</div>
+                        <div class="metric-label">Agents prefer<br>guided format</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">42%</div>
+                        <div class="metric-label">Reduction in operational<br>errors</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- INSTITUTIONAL RESULTS -->
+            <div class="results-box">
+                <h3>Institutional Transformations</h3>
+                <ul>
+                    <li><strong>Methodology adopted as standard</strong>: Strategy applied to transform 15,000+ articles</li>
+                    <li><strong>Cross‑departmental integration</strong>: Collaboration between Communication and Processes to scale transformation</li>
+                    <li><strong>Documentation and replicability</strong>: Process documented and available to other company areas</li>
+                    <li><strong>External technical validation</strong>: Prototype validated by IBM engineer, conferring technical credibility</li>
+                    <li><strong>Proven scalability</strong>: Methodology replicated for unification of multiple fragmented flows</li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ACADEMIC POSITIONING -->
+    <section id="academic-positioning">
+        <h2>8. ACADEMIC POSITIONING: FORWARD‑LOOKING RESEARCH AGENDA</h2>
+        
+        
+        
+        <div class="research-statement" style="text-align:justify;">                       
+            <p><strong>For the EMLDS Committee</strong>: This case demonstrates that linguistics provides powerful tools for systems engineering and operational optimization. The structure developed here is replicable for any domain involving transformation of <strong>ambiguous linear text into clear decision structures</strong>. It was the deep understanding of syntactic principles that allowed me to see the grammar behind operational chaos.</p>
+        </div>
+
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>EMLDS Alignment</h3>
+                <ul>
+                    <li><strong>Theoretical Linguistics Applied</strong>: Direct application of X‑Bar Theory to real‑world data structures</li>
+                    <li><strong>Cognitive Science</strong>: Study of how hierarchical organization aligns with human processing</li>
+                    <li><strong>Computational Modeling</strong>: Tree structures as formal models for process optimization</li>
+                    <li><strong>Interdisciplinary Research</strong>: Bridging linguistics, operations, and human‑computer interaction</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>Research Trajectory</h3>
+                <ul>
+                    <li><strong>Automated Tree Generation</strong>: Developing NLP tools to automatically convert linear text to hierarchical processes</li>
+                    <li><strong>Cross‑Domain Validation</strong>: Applying the methodology to telecom protocols, legal documents, and product materials</li>
+                    <li><strong>Theoretical Formalization</strong>: Formalizing "procedural syntax" as a sub‑discipline of applied linguistics</li>
+                    <li><strong>Cognitive Validation</strong>: Eye‑tracking and EEG studies to measure cognitive load reduction</li>
+                </ul>
+            </div>
+        </div>
+        
+        
+    </section>
+
+<div class="footer">
+    <p>
+        This project represents foundational work in information systems development during my technical education, 
+        demonstrating early competencies in data architecture that have been refined and expanded in my subsequent professional career.
+    </p>
+    <p class="restricted">
+        &reg; <strong>Ariane Lesnyak Castelló</strong> | This document is intended solely for the 
+        <strong>Erasmus Mundus Linguistic Data Science (EMLDS)</strong> Admission Committee. 
+        Unauthorized distribution or reproduction is prohibited.
+    </p>
+</div>
+
+    <script>
+        // Tab Functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            
+            // If it's the "AFTER" tab, reset the chatbot
+            if (tabName === 'caseAfter') {
+                resetChatbot();
+            }
+        }
+
+        // Chatbot Functionality
+        function selectOption(option) {
+            document.getElementById('instructionYes').classList.remove('active');
+            document.getElementById('instructionNo').classList.remove('active');
+            document.getElementById('initialOptions').style.display = 'none';
+            
+            if (option === 'yes') {
+                document.getElementById('instructionYes').classList.add('active');
+            } else {
+                document.getElementById('instructionNo').classList.add('active');
+            }
+        }
+        
+        function resetChatbot() {
+            document.getElementById('instructionYes').classList.remove('active');
+            document.getElementById('instructionNo').classList.remove('active');
+            document.getElementById('initialOptions').style.display = 'flex';
+        }
+
+        // Scrolling Text Animation Control
+        const scrollingText = document.getElementById('scrollingText');
+        let scrollPosition = 0;
+        
+        function updateScroll() {
+            const container = document.querySelector('.scrolling-container');
+            if (!container) return;
+            
+            const contentHeight = scrollingText.scrollHeight;
+            const containerHeight = container.clientHeight;
+            
+            if (scrollPosition > contentHeight) {
+                scrollPosition = -containerHeight;
+            }
+            
+            scrollingText.style.top = `-${scrollPosition}px`;
+            scrollPosition += 0.5;
+            
+            requestAnimationFrame(updateScroll);
+        }
+
+        // Methodological Pipeline
+        let currentMethodStep = 1;
+        const totalMethodSteps = 5;
+        const methodPrevBtn = document.getElementById('methodPrevBtn');
+        const methodNextBtn = document.getElementById('methodNextBtn');
+        
+        function updateMethodPipeline() {
+            for (let i = 1; i <= totalMethodSteps; i++) {
+                const box = document.getElementById(`methodStep${i}`);
+                if (box) box.classList.remove('active');
+            }
+            
+            const currentBox = document.getElementById(`methodStep${currentMethodStep}`);
+            if (currentBox) currentBox.classList.add('active');
+            
+            if (methodPrevBtn) methodPrevBtn.disabled = currentMethodStep === 1;
+            if (methodNextBtn) methodNextBtn.disabled = currentMethodStep === totalMethodSteps;
+        }
+        
+        function moveMethodSlide(direction) {
+            const newStep = currentMethodStep + direction;
+            if (newStep >= 1 && newStep <= totalMethodSteps) {
+                currentMethodStep = newStep;
+                updateMethodPipeline();
+            }
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize first tab as active
+            openTab({currentTarget: document.querySelector('.tab-btn.active')}, 'caseBefore');
+            
+            // Start scrolling text animation
+            if (scrollingText) {
+                updateScroll();
+            }
+            
+            // Initialize chatbot
+            resetChatbot();
+            
+            // Initialize methodological pipeline
+            updateMethodPipeline();
+        });
+    </script>
+
+</body>
+</html>
