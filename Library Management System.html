@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System | Foundational Database Project</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-light: #e8f0f8;
+            --accent: #2c5282;
+            --accent-light: #4a90e2;
+            --border: #cbd5e0;
+            --border-light: #e2e8f0;
+            --card: #ffffff;
+            --success: #2f855a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            max-width: 250mm;
+            margin: 0 auto;
+            padding: 15mm;
+            font-size: 10.5pt;
+        }
+        
+        .project-header {
+            text-align: center;
+            border-bottom: 4px solid #003366;
+            padding-bottom: 20pt;
+            margin-bottom: 25pt;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20pt;
+            border-radius: 8px;
+        }
+        
+        .project-title {
+            font-size: 20pt;
+            color: #003366;
+            margin-bottom: 2pt;
+        }
+        
+        .project-subtitle {
+            font-size: 14pt;
+            color: #003366;
+            font-weight: 600;
+            margin-bottom: 15pt;
+            font-style: italic;
+        }
+        
+        .metadata {
+            display: flex;
+            justify-content: center;
+            gap: 20pt;
+            margin-top: 15pt;
+            font-size: 9.5pt;
+            color: var(--accent);
+            flex-wrap: wrap;
+        }
+        
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 5pt;
+        }
+        
+        section {
+            margin-bottom: 30pt;
+            page-break-inside: avoid;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #003366;
+            border-bottom: 3px solid #003366;
+            padding-bottom: 5pt;
+            margin-bottom: 15pt;
+            text-transform: uppercase;
+            letter-spacing: 0.8pt;
+        }
+        
+        h3 {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #003366;
+            margin-top: 18pt;
+            margin-bottom: 10pt;
+            border-left: 5px solid #003366;
+            padding-left: 10pt;
+        }
+        
+        .academic-context {
+            background: linear-gradient(135deg, #f0f7ff 0%, #d6e4ff 100%);
+            padding: 15pt;
+            border-left: 4px solid #003366;
+            font-style: italic;
+            margin-bottom: 20pt;
+            text-align: justify;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            border: 2px solid #003366;
+            border-radius: 8px;
+            padding: 15pt;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        /* Schema Legend */
+        .schema-legend {
+            display: flex;
+            justify-content: center;
+            gap: 15pt;
+            margin: 15pt 0;
+            font-size: 9pt;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5pt;
+            padding: 4pt 8pt;
+            background: var(--primary-light);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        
+        .pk-badge, .fk-badge {
+            display: inline-block;
+            padding: 2pt 6pt;
+            border-radius: 3px;
+            font-size: 8pt;
+            font-weight: bold;
+            margin-right: 4pt;
+        }
+        
+        .pk-badge {
+            background: #2f855a;
+            color: white;
+        }
+        
+        .fk-badge {
+            background: #d69e2e;
+            color: white;
+        }
+        
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15pt;
+            margin: 20pt 0;
+        }
+        
+        .table-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 15pt;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+            position: relative;
+        }
+        
+        .table-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .table-name {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 12pt;
+            font-size: 11pt;
+            padding-bottom: 8pt;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8pt;
+        }
+        
+        .table-icon {
+            font-size: 14pt;
+        }
+        
+        .attribute {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 9.5pt;
+            align-items: center;
+        }
+        
+        .attribute:last-child {
+            border-bottom: none;
+        }
+        
+        .attr-name {
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 4pt;
+        }
+        
+        .attr-type {
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            font-size: 9pt;
+        }
+        
+        .attr-description {
+            font-size: 8pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 2pt;
+            grid-column: 1 / span 2;
+        }
+        
+        /* Diagram Sections */
+        .diagram-container {
+            margin: 20pt 0;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .diagram-header {
+            background: var(--primary-light);
+            padding: 10pt 15pt;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .diagram-title {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 11pt;
+        }
+        
+        .diagram-type {
+            font-size: 8pt;
+            color: var(--accent);
+            background: white;
+            padding: 2pt 6pt;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .diagram-image {
+            width: 100%;
+            padding: 15pt;
+            text-align: center;
+            background: #f8f9fa;
+        }
+        
+        .diagram-placeholder {
+            background: linear-gradient(45deg, var(--primary-light), #e8f0f8);
+            border: 2px dashed var(--accent);
+            border-radius: 6px;
+            padding: 40pt 20pt;
+            text-align: center;
+            margin: 0 auto;
+            max-width: 400px;
+        }
+        
+        .diagram-placeholder-icon {
+            font-size: 36pt;
+            color: var(--accent);
+            margin-bottom: 15pt;
+            opacity: 0.7;
+        }
+        
+        .diagram-placeholder-text {
+            font-size: 10pt;
+            color: var(--accent);
+            line-height: 1.6;
+        }
+        
+        .diagram-caption {
+            font-size: 9pt;
+            color: #666;
+            text-align: center;
+            padding: 8pt 15pt;
+            border-top: 1px solid var(--border-light);
+            background: #fafafa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15pt;
+            margin: 20pt 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 15pt;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+        }
+        
+        .feature-icon {
+            background: var(--primary-light);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12pt;
+            font-weight: bold;
+            font-size: 14pt;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 8pt;
+            color: var(--primary);
+            font-size: 11pt;
+        }
+        
+        .tech-list {
+            list-style: none;
+            margin: 15pt 0;
+        }
+        
+        .tech-list li {
+            padding: 8pt 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            font-size: 10pt;
+        }
+        
+        .tech-list li:before {
+            content: "▸";
+            color: var(--primary);
+            margin-right: 10pt;
+            font-weight: bold;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15pt;
+            margin: 20pt 0;
+        }
+        
+        .skill-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 15pt;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+        
+        .skill-title {
+            font-weight: 600;
+            margin-bottom: 8pt;
+            color: var(--primary);
+            font-size: 11pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8pt;
+        }
+        
+        .skill-icon {
+            font-size: 12pt;
+        }
+        
+        .emlds-badge {
+            display: inline-block;
+            background: var(--accent-light);
+            color: white;
+            padding: 2pt 6pt;
+            border-radius: 10px;
+            font-size: 7.5pt;
+            font-weight: bold;
+            margin-top: 8pt;
+            cursor: help;
+            position: relative;
+        }
+        
+        .emlds-badge:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 82, 130, 0.95);
+            color: white;
+            padding: 6pt 10pt;
+            border-radius: 4px;
+            font-size: 8pt;
+            white-space: nowrap;
+            opacity: 1;
+            visibility: visible;
+            z-index: 100;
+            margin-bottom: 6pt;
+        }
+        
+        .emlds-badge::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 82, 130, 0.95);
+            color: white;
+            padding: 6pt 10pt;
+            border-radius: 4px;
+            font-size: 8pt;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            margin-bottom: 6pt;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50pt;
+            padding-top: 20pt;
+            border-top: 2px solid var(--border);
+            color: var(--accent);
+            font-size: 9pt;
+        }
+        
+        @media (max-width: 768px) {
+            .table-grid, .features-grid, .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metadata, .schema-legend {
+                flex-direction: column;
+                gap: 8pt;
+                align-items: center;
+            }
+        }
+
+        /* Additional academic styling */
+        .academic-note {
+            background: #fffbeb;
+            border-left: 4px solid #d69e2e;
+            padding: 12pt;
+            margin: 15pt 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 9pt;
+            color: #744210;
+        }
+    </style>
+</head>
+<body>
+    <div class="project-header">
+        <h1 class="project-title">Library Management System</h1>
+        <div class="project-subtitle">Undergraduate Final Project in Information Technology Management</div>
+        
+        <div class="metadata">
+            <div class="metadata-item">
+                <strong>Institution:</strong> Marechal Rondon College
+            </div>
+            <div class="metadata-item">
+                <strong>Program:</strong> Information Technology Management
+            </div>
+            <div class="metadata-item">
+                <strong>Year:</strong> 2009
+            </div>
+            <div class="metadata-item">
+                <strong>Scope:</strong> Full-stack desktop application with relational database
+            </div>
+        </div>
+    </div>
+
+    <div class="academic-context">
+        <strong>Academic Significance:</strong> This project represents my foundational training in systematic data modeling and relational database design during undergraduate studies. The skills developed here—data normalization, entity-relationship modeling, and system documentation—directly inform my current work in linguistic data science and NLP, demonstrating a consistent trajectory in data architecture thinking from technical education to applied research.
+    </div>
+
+    <section>
+        <h2>1. Project Overview</h2>
+        <p style="text-align: justify;">
+            The Library Management System was designed to digitize and optimize operations for the Holus College library, which managed approximately 4,000 volumes. This full-stack desktop application replaced manual Excel-based tracking with a structured database system, addressing critical needs for operational efficiency, data consistency, and automated reporting in an authentic educational environment. The project demonstrates comprehensive system design from conceptual modeling to implementation and documentation.
+        </p>
+        
+        <h3>Core Objectives</h3>
+        <ul class="tech-list">
+            <li>Design and implement a normalized relational database schema for library management operations</li>
+            <li>Develop intuitive user interfaces with data validation and error handling for library staff</li>
+            <li>Implement a comprehensive reporting system with 12+ distinct report types for operational analytics</li>
+            <li>Ensure data integrity through third normal form (3NF) database design and referential constraints</li>
+            <li>Produce complete system documentation including technical specifications and user manuals</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>2. Database Schema Design</h2>
+        <p>The system utilizes a normalized relational database with 13 interconnected tables. The schema demonstrates sophisticated understanding of entity relationships, data types, and referential integrity. Below are the core entities demonstrating the relational architecture:</p>
+        
+        <div class="schema-legend">
+            <div class="legend-item">
+                <span class="pk-badge">PK</span> Primary Key
+            </div>
+            <div class="legend-item">
+                <span class="fk-badge">FK</span> Foreign Key
+            </div>
+            <div class="legend-item">
+                <strong>13 tables</strong> in complete normalized schema
+            </div>
+        </div>
+        
+        <div class="table-grid">
+            <!-- Table 1 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">📚</span>
+                    obra_literaria (Literary Work)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> ISBN
+                    </div>
+                    <span class="attr-type">VARCHAR(8)</span>
+                    <div class="attr-description">International Standard Book Number (unique identifier)</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">titulo_obra</span>
+                    <span class="attr-type">VARCHAR(50)</span>
+                    <div class="attr-description">Title of the literary work</div>
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="fk-badge">FK</span> cod_autor
+                    </div>
+                    <span class="attr-type">VARCHAR(4)</span>
+                    <div class="attr-description">Author reference code</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">data_publicacao</span>
+                    <span class="attr-type">DATE</span>
+                    <div class="attr-description">Publication date</div>
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="fk-badge">FK</span> cod_editora
+                    </div>
+                    <span class="attr-type">VARCHAR(4)</span>
+                    <div class="attr-description">Publisher reference code</div>
+                </div>
+            </div>
+            
+            <!-- Table 2 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">👤</span>
+                    leitores (Readers)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> RM
+                    </div>
+                    <span class="attr-type">NUMBER(10)</span>
+                    <div class="attr-description">Registration number (student ID)</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">nome</span>
+                    <span class="attr-type">VARCHAR(50)</span>
+                    <div class="attr-description">Full name</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">email</span>
+                    <span class="attr-type">VARCHAR(50)</span>
+                    <div class="attr-description">Email address</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">telefone</span>
+                    <span class="attr-type">VARCHAR(10)</span>
+                    <div class="attr-description">Phone number</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">data_nasc</span>
+                    <span class="attr-type">DATE</span>
+                    <div class="attr-description">Date of birth</div>
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="fk-badge">FK</span> cpf
+                    </div>
+                    <span class="attr-type">NUMBER</span>
+                    <div class="attr-description">Tax ID reference (Brazilian CPF)</div>
+                </div>
+            </div>
+            
+            <!-- Table 3 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">📖</span>
+                    exemplar (Book Copy)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> cod_exemplar
+                    </div>
+                    <span class="attr-type">NUMBER(4)</span>
+                    <div class="attr-description">Copy identifier</div>
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="fk-badge">FK</span> ISBN
+                    </div>
+                    <span class="attr-type">VARCHAR(8)</span>
+                    <div class="attr-description">Reference to literary work</div>
+                </div>
+            </div>
+            
+            <!-- Table 4 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">🔄</span>
+                    operacao (Loan Operation)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> cod_operacao
+                    </div>
+                    <span class="attr-type">NUMBER(10)</span>
+                    <div class="attr-description">Operation identifier</div>
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="fk-badge">FK</span> RM
+                    </div>
+                    <span class="attr-type">NUMBER(4)</span>
+                    <div class="attr-description">Reader reference</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">data_emprestimo</span>
+                    <span class="attr-type">DATE</span>
+                    <div class="attr-description">Loan date</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">data_devolucao</span>
+                    <span class="attr-type">DATE</span>
+                    <div class="attr-description">Return date</div>
+                </div>
+            </div>
+            
+            <!-- Table 5 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">✍️</span>
+                    autor (Author)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> cod_autor
+                    </div>
+                    <span class="attr-type">NUMBER(4)</span>
+                    <div class="attr-description">Author identifier</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">nome</span>
+                    <span class="attr-type">VARCHAR(30)</span>
+                    <div class="attr-description">Author name</div>
+                </div>
+            </div>
+            
+            <!-- Table 6 -->
+            <div class="table-card">
+                <div class="table-name">
+                    <span class="table-icon">📍</span>
+                    cidade (City)
+                </div>
+                <div class="attribute">
+                    <div class="attr-name">
+                        <span class="pk-badge">PK</span> cod_cidade
+                    </div>
+                    <span class="attr-type">NUMBER(4)</span>
+                    <div class="attr-description">City identifier</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">nome</span>
+                    <span class="attr-type">VARCHAR(50)</span>
+                    <div class="attr-description">City name</div>
+                </div>
+                <div class="attribute">
+                    <span class="attr-name">estado</span>
+                    <span class="attr-type">VARCHAR(2)</span>
+                    <div class="attr-description">State abbreviation</div>
+                </div>
+            </div>
+        </div>
+        
+        <p style="font-size: 9.5pt; color: var(--accent); margin-top: 10pt; text-align: center;">
+            <em>Additional tables in full schema: editora (publisher), categoria (category), tipo_operacao (operation type), 
+            responsavel (guardian), endereco (address), reserva (reservation), itens_operacao (loan items)</em>
+        </p>
+    </section>
+
+    <section>
+        <h2>3. System Architecture Documentation</h2>
+        
+        <h3>3.1 Entity-Relationship Diagram (Structural Design)</h3>
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <div class="diagram-title">Entity-Relationship Diagram</div>
+                <div class="diagram-type">DATA STRUCTURE</div>
+            </div>
+            <div class="diagram-image">
+                <!-- Replace with actual diagrama.PNG -->
+                <div class="diagram-placeholder">
+                    <div class="diagram-placeholder-icon">📊</div>
+                    <div class="diagram-placeholder-text">
+                        <strong>Entity-Relationship Diagram (diagrama.PNG)</strong><br><br>
+                        The ER diagram visually documents the complete relational structure, 
+                        including all 13 tables, their attributes, and the referential integrity 
+                        constraints between entities.
+                    </div>
+                </div>
+            </div>
+            <div class="diagram-caption">
+                Figure 1: Complete Entity-Relationship diagram showing table structures, primary keys, 
+                foreign keys, and relationships between all database entities.
+            </div>
+        </div>
+        
+        <h3>3.2 Use Case Diagram (Functional Design)</h3>
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <div class="diagram-title">Use Case Diagram</div>
+                <div class="diagram-type">SYSTEM BEHAVIOR</div>
+            </div>
+            <div class="diagram-image">
+                <!-- Replace with actual diagrama2.PNG -->
+                <div class="diagram-placeholder">
+                    <div class="diagram-placeholder-icon">👥</div>
+                    <div class="diagram-placeholder-text">
+                        <strong>Use Case Diagram (diagrama2.PNG)</strong><br><br>
+                        The Use Case diagram documents system functionality from the user perspective, 
+                        showing interactions between actors (librarian, client) and system capabilities.
+                    </div>
+                </div>
+            </div>
+            <div class="diagram-caption">
+                Figure 2: Use Case diagram showing system functionalities and actor interactions: 
+                librarian manages catalog and operations, client performs reservations and returns.
+            </div>
+        </div>
+        
+        <h3>3.3 Entity Relationships (Textual Summary)</h3>
+        <div style="font-family: 'Courier New', monospace; font-size: 9.5pt; background: #f8f9fa; padding: 15pt; border-radius: 6px; border-left: 3px solid var(--primary); margin-top: 10pt; line-height: 1.8;">
+            LEITORES (Readers) ────┐<br>
+                │<br>
+                ├─(has)─── ENDERECO (Address) ────(in)─── CIDADE (City)<br>
+                │<br>
+                └─(related to)─── RESPONSAVEL (Guardian)<br>
+                    │<br>
+            OPERACAO (Loan) ───(performed by)───┘<br>
+                │<br>
+                ├─(contains)─── ITENS_OPERACAO (Loan Items)<br>
+                │        │<br>
+                │        └─(refers to)─── EXEMPLAR (Book Copy) ───(instance of)─── OBRA_LITERARIA (Literary Work)<br>
+                │                                      │                                    │<br>
+                └─(type)─── TIPO_OPERACAO (Loan Type)  │                                    ├─(written by)─── AUTOR (Author)<br>
+                                                       │                                    │<br>
+                                                       └─(can be)─── RESERVA (Reservation)  └─(published by)── EDITORA (Publisher)<br>
+                                                                                            └─(categorized as)── CATEGORIA (Category)
+        </div>
+        <p style="font-size: 9.5pt; color: #666; margin-top: 8pt; text-align: center;">
+            This textual representation complements the visual diagrams by explicitly stating the 
+            semantic relationships and referential integrity constraints in the database design.
+        </p>
+    </section>
+
+    <section>
+        <h2>4. System Features & Functionality</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">CRUD</div>
+                <div class="feature-title">Complete Entity Management</div>
+                <p style="font-size: 9.5pt;">Full Create, Read, Update, Delete operations for all entities with automated ID generation, data validation, and referential integrity enforcement.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Comprehensive Reporting</div>
+                <p style="font-size: 9.5pt;">12+ report types (readers, authors, categories, operations, cities, publishers) with filtering, printing, and export capabilities using QuickReport engine.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <div class="feature-title">Advanced Navigation</div>
+                <p style="font-size: 9.5pt;">Record navigation (first, previous, next, last), search functionality with wildcards, and multi-form interface with tabbed sections for efficient data access.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-title">User Security</div>
+                <p style="font-size: 9.5pt;">Role-based access control with individual user accounts (login/password), configurable permissions, and audit trail for sensitive operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Technical Implementation</h2>
+        <ul class="tech-list">
+            <li><strong>Development Environment:</strong> Borland Delphi 7 (Enterprise Edition) - Rapid Application Development methodology</li>
+            <li><strong>Database:</strong> Relational database (compatible with Oracle/MySQL schemas) - ANSI SQL compliant design</li>
+            <li><strong>Reporting Engine:</strong> QuickReport component suite for dynamic report generation and export functionality</li>
+            <li><strong>UI Components:</strong> Data-aware controls (DBEdit, DBGrid), Tabbed forms for organized data entry, Menu-driven navigation system</li>
+            <li><strong>Architecture:</strong> Two-tier client-server model with business logic embedded in UI layer</li>
+            <li><strong>Data Validation:</strong> Field-level validation rules, referential integrity enforcement, transaction management with rollback capabilities</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>6. Skills Demonstrated & EMLDS Alignment</h2>
+        
+        <div class="academic-note">
+            <strong>Note on Skill Development:</strong> This undergraduate project demonstrates foundational competencies in data architecture that have been progressively refined in my subsequent professional work. The systematic approach to structuring complex information systems directly parallels the data modeling challenges encountered in linguistic data science.
+        </div>
+        
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-title">
+                    <span class="skill-icon">🗄️</span>
+                    Database Design & Normalization
+                </div>
+                <p style="font-size: 9.5pt;">Third normal form (3NF) schema design, Entity-Relationship modeling, relationship mapping (1:1, 1:N, N:N), constraint definition, and comprehensive schema documentation.</p>
+                <div class="emlds-badge" data-tooltip="Applied to Lexicographic and Terminological Data Structures">
+                    EMLDS: Standards & Data Modeling
+                </div>
+                <div class="emlds-badge" data-tooltip="Formal Structures in Computational Linguistics">
+                    EMLDS: Computational Linguistics 1
+                </div>
+            </div>
+            
+            <div class="skill-card">
+                <div class="skill-title">
+                    <span class="skill-icon">📋</span>
+                    System Documentation
+                </div>
+                <p style="font-size: 9.5pt;">User manuals, technical specifications, entity descriptions, process workflows, data dictionaries, and training materials for system maintenance.</p>
+                <div class="emlds-badge" data-tooltip="Documentation Practices for Linguistic Resources">
+                    EMLDS: Lexicography
+                </div>
+                <div class="emlds-badge" data-tooltip="Metadata and Documentation Standards">
+                    EMLDS: Research Data Management and Curation
+                </div>
+            </div>
+            
+            <div class="skill-card">
+                <div class="skill-title">
+                    <span class="skill-icon">💻</span>
+                    Software Development
+                </div>
+                <p style="font-size: 9.5pt;">Rapid Application Development methodology, UI/UX design principles, event-driven programming, data binding techniques, and modular software architecture.</p>
+                <div class="emlds-badge" data-tooltip="Development of Linguistic Tools and Applications">
+                    EMLDS: Digital Tools for the Humanities
+                </div>
+                <div class="emlds-badge" data-tooltip="Programming for Linguistic Applications">
+                    EMLDS: Fundamentals of Computer Science for Linguistics
+                </div>
+            </div>
+            
+            <div class="skill-card">
+                <div class="skill-title">
+                    <span class="skill-icon">📊</span>
+                    Data Management Systems
+                </div>
+                <p style="font-size: 9.5pt;">CRUD operations, transaction handling, backup/recovery planning, data integrity enforcement, reporting systems, and query optimization.</p>
+                <div class="emlds-badge" data-tooltip="Structuring Semantic and Lexical Data">
+                    EMLDS: Computational Semantics
+                </div>
+                <div class="emlds-badge" data-tooltip="Data Preparation and Management for ML">
+                    EMLDS: Machine Learning and Deep Learning
+                </div>
+                <div class="emlds-badge" data-tooltip="Scalable Data Architecture">
+                    EMLDS: Advanced Topics in Data Science
+                </div>
+            </div>
+        </div>
+        
+        <div class="academic-context" style="margin-top: 20pt;">
+            <strong>Academic Trajectory:</strong> The foundational database design and data modeling skills demonstrated in this undergraduate project directly align with the core competencies required for the EMLDS program. This project evidences early proficiency in structuring complex information systems—a competency that has evolved into my current professional work with linguistic taxonomies, semantic infrastructures, and NLP pipelines. The systematic approach to entity-relationship mapping established here provides the conceptual foundation for current work in knowledge representation and ontology engineering.
+        </div>
+    </section>
+
+    <section>
+        <h2>7. Academic Relevance and Contribution</h2>
+        <p style="text-align: justify;">
+            This project represents a comprehensive application of information systems principles to a real-world educational context. The technical implementation demonstrates understanding of:
+        </p>
+        <ul class="tech-list">
+            <li><strong>Systematic Problem-Solving:</strong> Translating library management requirements into a functional software system with appropriate data structures</li>
+            <li><strong>Data Architecture:</strong> Designing normalized relational schemas that maintain data integrity while supporting operational needs</li>
+            <li><strong>User-Centered Design:</strong> Developing interfaces that accommodate varying user expertise levels within an institutional setting</li>
+            <li><strong>Documentation Practices:</strong> Creating comprehensive technical and user documentation that ensures system maintainability</li>
+            <li><strong>Quality Assurance:</strong> Implementing data validation and error handling to ensure system reliability</li>
+        </ul>
+        
+        <div class="academic-note">
+            <strong>Project Context:</strong> Completed as the capstone project for the Information Technology Management program, this work received distinction for its comprehensive implementation and documentation. The project reflects the applied nature of technical education while demonstrating analytical thinking that transcends specific technologies.
+        </div>
+    </section>
+
+    <div class="footer">
+        <p>This project represents foundational work in information systems development during my technical education, demonstrating early competencies in data architecture that have been refined and expanded in subsequent professional work.</p>
+        <p style="margin-top: 10pt; font-size: 8.5pt; color: #718096;">
+            Documentation extracted from original project files: "Library Management System" (2009)<br>
+            Marechal Rondon College | Information Technology Management Program | Final Undergraduate Project
+        </p>
+    </div>
+
+    <script>
+        // Tooltip functionality for EMLDS badges
+        document.addEventListener('DOMContentLoaded', function() {
+            const badges = document.querySelectorAll('.emlds-badge');
+            
+            badges.forEach(badge => {
+                badge.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                });
+                
+                badge.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
