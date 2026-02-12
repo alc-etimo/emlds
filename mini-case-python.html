@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Miniproject: SDH Subtitle Automation</title>
+    <title>Python Miniproject: SDH Subtitle Automation - EMLDS Portfolio</title>
     <style>
         :root {
             --primary: #003366;
-            --primary-light: #e8f0f0;
+            --primary-light: #e8f0f8;
             --accent: #2c5282;
             --success: #2f855a;
+            --danger: #c53030;
             --border: #cbd5e0;
             --border-light: #e2e8f0;
             --card: #ffffff;
@@ -22,18 +23,18 @@
         }
         
         body {
-            font-family: 'Calibri', 'Arial', sans-serif;
+            font-family: 'Georgia', 'Times New Roman', serif;
             line-height: 1.6;
             color: #333;
             background: #fff;
-            max-width: 210mm;
+            max-width: 250mm;
             margin: 0 auto;
             padding: 15mm;
             font-size: 10.5pt;
         }
         
-        /* HEADER */
-        .project-header {
+        /* CASE HEADER - MESMO PADRÃO DOS OUTROS CASOS */
+        .case-header {
             text-align: center;
             border-bottom: 4px solid #003366;
             padding-bottom: 20pt;
@@ -43,7 +44,7 @@
             border-radius: 8px;
         }
         
-        .project-number {
+        .case-number {
             font-size: 14pt;
             font-weight: bold;
             color: #003366;
@@ -52,7 +53,7 @@
             letter-spacing: 1.5pt;
         }
         
-        .project-header h1 {
+        .case-header h1 {
             font-size: 18pt;
             color: #003366;
             margin-bottom: 2pt;
@@ -62,7 +63,7 @@
             padding-bottom: 0;
         }
         
-        .project-subtitle {
+        .case-subtitle {
             font-size: 12pt;
             color: #003366;
             font-weight: 600;
@@ -70,7 +71,7 @@
             font-style: italic;
         }
         
-        .project-tags {
+        .case-tags {
             margin-top: 15pt;
             display: flex;
             justify-content: center;
@@ -78,7 +79,7 @@
             gap: 6pt;
         }
         
-        .project-tag {
+        .case-tag {
             display: inline-block;
             background: #003366;
             color: white;
@@ -97,6 +98,7 @@
             border-left: 4px solid #003366;
             margin-bottom: 20pt;
             border-radius: 0 4px 4px 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         /* SECTIONS */
@@ -114,6 +116,7 @@
             margin-bottom: 15pt;
             text-transform: uppercase;
             letter-spacing: 0.8pt;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         h3 {
@@ -124,6 +127,7 @@
             margin-bottom: 10pt;
             border-left: 5px solid #003366;
             padding-left: 10pt;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         /* TWO COLUMNS */
@@ -151,6 +155,7 @@
             margin-bottom: 12pt;
             padding-bottom: 8pt;
             border-bottom: 1px solid #003366;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         /* CODE BLOCK */
@@ -182,7 +187,7 @@
             color: #fbb6ce;
         }
         
-        /* BEFORE/AFTER VISUAL */
+        /* BEFORE/AFTER VISUAL - CORRIGIDO */
         .before-after {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -195,6 +200,8 @@
             border-radius: 8px;
             padding: 15pt;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            overflow-x: auto;
         }
         
         .before-box {
@@ -211,6 +218,7 @@
             margin-bottom: 10pt;
             padding-bottom: 5pt;
             border-bottom: 1px solid;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         .before-box h4 {
@@ -221,6 +229,18 @@
         .after-box h4 {
             color: #2f855a;
             border-bottom-color: #2f855a;
+        }
+        
+        .before-box pre, .after-box pre {
+            background: #f5f5f5;
+            padding: 10pt;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 9pt;
+            margin: 10pt 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
         }
         
         /* RESULTS */
@@ -244,11 +264,13 @@
             font-weight: bold;
             color: #003366;
             margin-bottom: 6pt;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         .result-label {
             font-size: 10pt;
             color: #666;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         /* LISTS */
@@ -260,6 +282,7 @@
         li {
             margin-bottom: 8pt;
             text-align: justify;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         
         strong {
@@ -273,62 +296,134 @@
             overflow-x: auto;
             font-size: 9.5pt;
             margin: 10pt 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        ol {
+            margin-left: 20pt;
+            margin-top: 8pt;
+        }
+        
+        ol li {
+            margin-bottom: 6pt;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        
+        /* IMAGE CAPTION - PADRÃO DOS OUTROS CASOS */
+        .image-caption {
+            font-size: 9.5pt;
+            margin-top: 8pt;
+            font-style: italic;
+            text-align: center;
+            color: #333;
+        }
+
+        .image-caption strong {
+            color: #003366;
+            font-weight: bold;
+            font-style: italic;
+        }
+        
+        /* FOOTER - MESMO PADRÃO DOS OUTROS CASOS */
+        .footer {
+            text-align: center;
+            margin-top: 50pt;
+            padding-top: 20pt;
+            border-top: 2px solid #003366;
+            color: #003366;
+            font-size: 9pt;
+            line-height: 1.5;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .restricted {
+            margin-top: 10pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 8pt;
+            opacity: 0.8;
+        }
+        
+        /* RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .two-columns, .before-after {
+                grid-template-columns: 1fr;
+                gap: 15pt;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media print {
             body { padding: 5mm; }
         }
+
+        /* HIGHLIGHT CLASS */
+        .highlight {
+            color: #003366;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <!-- PROJECT HEADER -->
-    <div class="project-header">
-        <div class="project-number">PYTHON MINIPROJECT — EMLDS PORTFOLIO</div>
+    <!-- PROJECT HEADER - MESMO PADRÃO DOS OUTROS CASOS -->
+    <div class="case-header">
+        <div class="case-number">PYTHON MINIPROJECT – EMLDS ADMISSIONS PORTFOLIO</div>
         <h1>Automated Metadata Structuring<br> for Video Subtitles</h1>
-        <div class="project-subtitle">A practical application of Python scripting for optimizing linguistic workflows</div>
-        <div class="project-tags">
-            <span class="project-tag">Python Scripting</span>
-            <span class="project-tag">Text Processing</span>
-            <span class="project-tag">Workflow Automation</span>
-            <span class="project-tag">Data Structuring</span>
-            <span class="project-tag">Applied Linguistics</span>
+        <div class="case-subtitle">A practical application of Python scripting for optimizing linguistic workflows</div>
+        <div class="case-tags">
+            <span class="case-tag">Python Scripting</span>
+            <span class="case-tag">Text Processing</span>
+            <span class="case-tag">Workflow Automation</span>
+            <span class="case-tag">Data Structuring</span>
+            <span class="case-tag">Applied Linguistics</span>
         </div>
     </div>
 
-    <!-- CONTEXT -->
-    <div class="context-box">
-        <strong>Real-world context:</strong> During subtitle work for a major streaming platform, I faced the challenge of manually adding complex SDH (Subtitles for the Deaf and Hard of Hearing) metadata structures to raw subtitle files. Each line required repetitive typing of markers, separators, and mandatory fields—a slow and error-prone process.
-    </div>
-
-    <!-- THE PROBLEM vs THE SOLUTION -->
-    <div class="two-columns">
-        <div class="problem-box">
-            <h3>The Manual Problem</h3>
-            <ul>
-                <li>80% of time spent on repetitive formatting</li>
-                <li>Manual typing of fixed structures for each line</li>
-                <li>Risk of inconsistency in separators and markers</li>
-                <li>Average time: 8-10 seconds per subtitle line</li>
-                <li>Frequent formatting errors requiring revision</li>
-            </ul>
-        </div>
+    <!-- 1. CONTEXT -->
+    <section id="context">
+        <h2>1. CONTEXT: REAL-WORLD LINGUISTIC WORKFLOW CHALLENGE</h2>
         
-        <div class="solution-box">
-            <h3>The Automated Solution</h3>
-            <ul>
-                <li>Python script for file reading and transformation</li>
-                <li>Automatic identification of timestamps and dialogues</li>
-                <li>Automatic insertion of complete metadata structure</li>
-                <li>Time reduced to 2-3 seconds per line</li>
-                <li>100% consistent formatting standardization</li>
-            </ul>
+        <div class="context-box">
+            <strong>Real-world context:</strong> During subtitle work for Amazon Prime Video, I faced the challenge of manually adding complex SDH (Subtitles for the Deaf and Hard of Hearing) metadata structures to raw subtitle files. Each line required repetitive typing of markers, separators, and mandatory fields—a slow and error-prone process.
         </div>
-    </div>
+    </section>
 
-    <!-- THE PYTHON CODE -->
-    <section>
-        <h2>THE CODE: AUTOMATIC FORMATTING FUNCTION</h2>
+    <!-- 2. THE PROBLEM VS THE SOLUTION -->
+    <section id="problem-solution">
+        <h2>2. PROBLEM IDENTIFICATION & METHODOLOGICAL APPROACH</h2>
+        
+        <div class="two-columns">
+            <div class="problem-box">
+                <h3>The Manual Problem</h3>
+                <ul>
+                    <li>80% of time spent on repetitive formatting</li>
+                    <li>Manual typing of fixed structures for each line</li>
+                    <li>Risk of inconsistency in separators and markers</li>
+                    <li>Average time: 8-10 seconds per subtitle line</li>
+                    <li>Frequent formatting errors requiring revision</li>
+                </ul>
+            </div>
+            
+            <div class="solution-box">
+                <h3>The Automated Solution</h3>
+                <ul>
+                    <li>Python script for file reading and transformation</li>
+                    <li>Automatic identification of timestamps and dialogues</li>
+                    <li>Automatic insertion of complete metadata structure</li>
+                    <li>Time reduced to 2-3 seconds per line</li>
+                    <li>100% consistent formatting standardization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE PYTHON CODE -->
+    <section id="python-code">
+        <h2>3. METHODOLOGICAL IMPLEMENTATION: PYTHON SCRIPT</h2>
         
         <div class="code-block">
 <span class="code-keyword">def</span> <span class="code-function">format_subtitle_template</span>(input_file, output_file):<br>
@@ -368,7 +463,7 @@
 <span class="code-function">format_subtitle_template</span>(<span class="code-string">"raw_subtitle.srt"</span>, <span class="code-string">"formatted_subtitle.txt"</span>)
         </div>
         
-        <h3>Line-by-Line Explanation</h3>
+        <h3>3.1. Line-by-Line Explanation</h3>
         <ol>
             <li><strong>Lines 1-5:</strong> Defines the function and its documentation (docstring)</li>
             <li><strong>Lines 7-8:</strong> Opens the input file with UTF-8 encoding</li>
@@ -379,11 +474,15 @@
             <li><strong>Lines 25-30:</strong> Adds metadata structure with empty fields</li>
             <li><strong>Lines 33-35:</strong> Saves all formatted lines to the new file</li>
         </ol>
+        
+        <div class="image-caption" style="text-align: left; margin-top: 10pt;">
+            <strong>Figure 1</strong>: Core Python function for automated metadata insertion in SDH subtitle workflows.
+        </div>
     </section>
 
-    <!-- BEFORE AND AFTER -->
-    <section>
-        <h2>VISUAL TRANSFORMATION: BEFORE AND AFTER</h2>
+    <!-- 4. VISUAL TRANSFORMATION: BEFORE AND AFTER -->
+    <section id="visual-transformation">
+        <h2>4. VISUAL TRANSFORMATION: BEFORE AND AFTER</h2>
         
         <div class="before-after">
             <div class="before-box">
@@ -397,28 +496,32 @@ Foram pra festa? Foi boa?
 00:00:35,100 --> 00:00:37,500
 Sim, foi incrível!
                 </pre>
-                <p><strong>Manual time:</strong> 8-10 seconds per line<br>
+                <p style="font-family: 'Georgia', 'Times New Roman', serif;"><strong>Manual time:</strong> 8-10 seconds per line<br>
                 <strong>Error risk:</strong> High (inconsistent formatting)</p>
             </div>
             
             <div class="after-box">
                 <h4>AFTER: Formatted Template</h4>
-                <pre>
+                <pre style="font-size: 8.5pt; white-space: pre-wrap; word-wrap: break-word;">
 11
 00:00:30,823 --> 00:00:32,408 {S: || A: || L: || T: } [sub: || action: || cap: || P] Foram pra festa? Foi boa?
 
 12
 00:00:35,100 --> 00:00:37,500 {S: || A: || L: || T: } [sub: || action: || cap: || P] Sim, foi incrível!
                 </pre>
-                <p><strong>Automated time:</strong> 2-3 seconds per line<br>
+                <p style="font-family: 'Georgia', 'Times New Roman', serif;"><strong>Automated time:</strong> 2-3 seconds per line<br>
                 <strong>Consistency:</strong> 100% (automatic standardization)</p>
             </div>
         </div>
+        
+        <div class="image-caption" style="text-align: left; margin-top: 5pt;">
+            <strong>Figure 2</strong>: Comparative visualization showing raw SRT input and Python-generated formatted output with SDH metadata structure.
+        </div>
     </section>
 
-    <!-- RESULTS AND IMPACT -->
-    <section>
-        <h2>RESULTS AND OPERATIONAL IMPACT</h2>
+    <!-- 5. RESULTS AND OPERATIONAL IMPACT -->
+    <section id="results-impact">
+        <h2>5. RESULTS AND OPERATIONAL IMPACT</h2>
         
         <div class="results-grid">
             <div class="result-card">
@@ -442,7 +545,7 @@ Sim, foi incrível!
             </div>
         </div>
         
-        <h3>Additional Benefits</h3>
+        <h3>5.1. Additional Benefits</h3>
         <ul>
             <li><strong>Focus on data quality:</strong> Time freed for research on character names, actors, and tone analysis</li>
             <li><strong>Scalability:</strong> Processing of hundreds of files with a single command</li>
@@ -451,15 +554,15 @@ Sim, foi incrível!
         </ul>
     </section>
 
-    <!-- CONNECTION WITH EMLDS -->
-    <section>
-        <h2>CONNECTION WITH THE EMLDS PROGRAM</h2>
+    <!-- 6. CONNECTION WITH THE EMLDS PROGRAM -->
+    <section id="emlds-connection">
+        <h2>6. CONNECTION WITH THE EMLDS PROGRAM</h2>
         
         <div class="context-box">
             <p>This miniproject serves as a foundation for the advanced topics covered in the EMLDS program, demonstrating the progression from basic scripting to sophisticated linguistic data processing. The current solution addresses workflow optimization, while the envisioned extensions align with core program competencies.</p>
         </div>
         
-        <h3>Demonstrated Foundational Skills</h3>
+        <h3>6.1. Demonstrated Foundational Skills</h3>
         <ul>
             <li><strong>Text Processing Fundamentals:</strong> String manipulation, regular expressions, and parsing of domain-specific formats (SRT)</li>
             <li><strong>Workflow Analysis & Automation:</strong> Systematic identification of repetitive tasks and creation of scalable solutions</li>
@@ -467,7 +570,7 @@ Sim, foi incrível!
             <li><strong>Algorithmic Problem-Solving:</strong> Application of computational thinking to real-world linguistic workflows</li>
         </ul>
         
-        <h3>Advanced Applications for EMLDS Development</h3>
+        <h3>6.2. Advanced Applications for EMLDS Development</h3>
         <ul>
             <li><strong>Sentiment & Tone Analysis Integration:</strong> Using libraries like TextBlob, VADER, or spaCy to automatically detect and tag emotional tones (sarcastic, playful, angry) in dialogue, reducing manual annotation time by 60-80%</li>
             <li><strong>Named Entity Recognition (NER) for Character Identification:</strong> Implementing spaCy or Stanza NER models to automatically identify character names and speakers in dialogue, creating initial speaker metadata templates</li>
@@ -479,7 +582,7 @@ Sim, foi incrível!
             <li><strong>Cross-Modal Validation:</strong> Creating validation systems that compare subtitle timing with actual speech rate and pause patterns to flag potential alignment errors</li>
         </ul>
 
-        <h3>Research Questions Emerging from This Work</h3>
+        <h3>6.3. Research Questions Emerging from This Work</h3>
         <ul>
             <li>How can sentiment analysis models be adapted to accurately capture dramatic/cinematic tone (vs. general text sentiment)?</li>
             <li>What are the optimal feature sets for automatically distinguishing between main characters and background speakers in dialogue?</li>
@@ -487,6 +590,20 @@ Sim, foi incrível!
             <li>What ethical frameworks are needed for automated generation of accessibility metadata to ensure respectful and accurate representation?</li>
         </ul>
     </section>
+
+    <!-- FOOTER - MESMO PADRÃO DOS OUTROS CASOS -->
+    <div class="footer">
+        <p>
+            This project represents practical application of Python scripting for linguistic workflow automation during my professional experience, 
+            demonstrating competencies in text processing, data structuring, and computational problem-solving that have been 
+            refined and expanded in my subsequent work.
+        </p>
+        <p class="restricted">
+            &reg; <strong>Ariane Lesnyak Castelló</strong> | This document is intended solely for the 
+            <strong>Erasmus Mundus Linguistic Data Science (EMLDS)</strong> Admission Committee. 
+            Unauthorized distribution or reproduction is prohibited.
+        </p>
+    </div>
 
 </body>
 </html>
